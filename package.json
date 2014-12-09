@@ -1,0 +1,45 @@
+{
+  "name": "shift-reducer",
+  "version": "1.0.1",
+  "description": "reducer for the Shift AST format",
+  "author": "Shape Security Labs",
+  "homepage": "https://github.com/shapesecurity/shift-reducer-js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/shapesecurity/shift-reducer-js.git"
+  },
+  "main": "lib/index.js",
+  "files": [
+    "lib"
+  ],
+  "scripts": {
+    "test": "mocha --compilers js:6to5/lib/6to5/register --inline-diffs --check-leaks --ui tdd --reporter dot test",
+    "build": "6to5 --source-maps-inline --out-dir lib src"
+  },
+  "dependencies": {
+    "shift-ast": "^1.0.0"
+  },
+  "devDependencies": {
+    "6to5": "^1.14.17",
+    "mocha": "^2.0.1"
+  },
+  "keywords": [
+    "Shift",
+    "AST",
+    "reducer",
+    "reduce",
+    "reducible",
+    "monoidal",
+    "monoid",
+    "fold",
+    "summary",
+    "summarise",
+    "abstract",
+    "syntax",
+    "tree"
+  ],
+  "bugs": {
+    "url": "https://github.com/shapesecurity/shift-reducer-js/issues"
+  },
+  "license": "Apache-2.0"
+}
