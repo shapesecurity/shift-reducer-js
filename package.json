@@ -1,0 +1,50 @@
+{
+  "name": "laserbat-reducer",
+  "version": "0.0.1",
+  "description": "reducer for the LaserBat AST format",
+  "author": "Shape Security Labs",
+  "homepage": "https://github.com/shapesecurity/laserbat-reducer-js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/shapesecurity/laserbat-reducer-js.git"
+  },
+  "main": "lib/index.js",
+  "files": [
+    "lib"
+  ],
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "mocha --compilers js:6to5/lib/6to5/register --inline-diffs --check-leaks --ui tdd --reporter dot ",
+    "build": "mkdir lib; 6to5 src/index.js > lib/index.js"
+  },
+  "dependencies": {
+    "laserbat-ast": "0.x.x"
+  },
+  "devDependencies": {
+    "6to5": "^1.14.17",
+    "mocha": "^2.0.1"
+  },
+  "keywords": [
+    "LaserBat",
+    "AST",
+    "reducer",
+    "reduce",
+    "reducible",
+    "monoidal",
+    "monoid",
+    "fold",
+    "summary",
+    "summarise",
+    "laser",
+    "bat",
+    "abstract",
+    "syntax",
+    "tree"
+  ],
+  "bugs": {
+    "url": "https://github.com/shapesecurity/laserbat-reducer-js/issues"
+  },
+  "license": "Apache-2.0"
+}
