@@ -16,7 +16,7 @@
     "test": "test"
   },
   "scripts": {
-    "test": "mocha --compilers js:6to5/lib/6to5/register --inline-diffs --check-leaks --ui tdd --reporter dot ",
+    "test": "mocha --compilers js:6to5/lib/6to5/register --inline-diffs --check-leaks --ui tdd --reporter dot test",
     "build": "mkdir lib; 6to5 src/index.js > lib/index.js"
   },
   "dependencies": {
