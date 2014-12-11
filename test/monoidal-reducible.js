@@ -1,7 +1,7 @@
 import * as assert from "assert"
 
 import * as AST from "laserbat-ast"
-import reduce, {MonoidalReducible} from "."
+import reduce, {MonoidalReducible} from "../"
 
 suite("MonoidalReducible", () => {
 
