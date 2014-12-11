@@ -129,17 +129,14 @@ export class Reducible { }
 
 export class MonoidalReducible extends Reducible {
   constructor(monoid) {
-    this.monoid = monoid;
+    let empty = monoid.empty();
+    this.identity = () => empty;
+    let concat = monoid.prototype && monoid.prototype.concat || monoid.concat;
+    this.append = this.append2 = (a, b) => concat.call(a, b);
   }
 
-  identity() {
-    return this.monoid.empty();
-  }
   fromNull(a) {
     return a == null ? this.identity() : a;
-  }
-  append(a, b) {
-    return this.monoid.prototype.concat.call(a, b);
   }
   append3(a, b, c) {
     return this.append(this.append(a, b), c);
