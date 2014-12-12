@@ -206,10 +206,10 @@ export class MonoidalReducer extends Reducer {
     return this.append(this.fold(directives), this.fold(statements));
   }
   reduceFunctionDeclaration(node, name, parameters, body) {
-    return this.append3(name, parameters, body);
+    return this.append3(this.fold(parameters, name), body);
   }
   reduceFunctionExpression(node, name, parameters, body) {
-    return this.append3(this.fromNull(name), parameters, body);
+    return this.append(this.fold(parameters, this.fromNull(name)), body);
   }
   reduceGetter(node, name, body) {
     return this.append(name, body);
