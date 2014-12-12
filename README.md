@@ -9,7 +9,8 @@ This project provides a reducer for a [LaserBat format](https://github.com/shape
 
 ## Status
 
-This project is currently in the `0.x.x` series until the `laserbat-ast` dependency is brought out of the `0.x.x` series.
+[Unstable](http://nodejs.org/api/documentation.html#documentation_stability_index).
+This project is currently in the `0.x.x` series until comprehensive tests are added.
 
 
 ## Installation
@@ -48,7 +49,7 @@ IdentifierCounter.count(PROGRAM);
 ## Contributing
 
 * Open a Github issue with a description of your desired change. If one exists already, leave a message stating that you are working on it with the date you expect it to be complete.
-* Fork and clone the forked repo.
+* Fork this repo, and clone the forked repo.
 * Install dependencies with `npm install`.
 * Build and test in your environment with `npm run build && npm test`.
 * Create a feature branch. Make your changes. Add tests.
