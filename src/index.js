@@ -208,7 +208,7 @@ export class MonoidalReducer extends Reducer {
   reduceFunctionDeclaration(node, name, parameters, body) {
     return this.append3(name, parameters, body);
   }
-  reduceFunctionExpression(node) {
+  reduceFunctionExpression(node, name, parameters, body) {
     return this.append3(this.fromNull(name), parameters, body);
   }
   reduceGetter(node, name, body) {
