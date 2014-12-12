@@ -17,13 +17,13 @@
 import * as assert from "assert"
 
 import * as AST from "laserbat-ast"
-import reduce, {MonoidalReducible} from "../"
+import reduce, {MonoidalReducer} from "../"
 
-suite("MonoidalReducible", () => {
+suite("MonoidalReducer", () => {
 
   test("simple IdentifierCounter example", () => {
 
-    class IdentifierCounter extends MonoidalReducible {
+    class IdentifierCounter extends MonoidalReducer {
       static count(program) {
         return reduce(new this, program);
       }
