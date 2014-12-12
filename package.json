@@ -17,7 +17,7 @@
     "build": "6to5 --source-maps-inline --out-dir lib src"
   },
   "dependencies": {
-    "laserbat-ast": "0.x.x"
+    "laserbat-ast": "^1.0.0"
   },
   "devDependencies": {
     "6to5": "^1.14.17",
