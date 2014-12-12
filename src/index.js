@@ -20,7 +20,7 @@ import * as AST from "laserbat-ast"
 function recurse(branch) {
   return function(reducer, node) {
     let branchNode = node[branch];
-    return REDUCERS[branchNode.type](reducer, branchNode);
+    return DRIVER[branchNode.type](reducer, branchNode);
   };
 }
 
@@ -28,13 +28,13 @@ function recurseMaybe(branch) {
   return function(reducer, node) {
     let branchNode = node[branch];
     if (branchNode == null) return null;
-    return REDUCERS[branchNode.type](reducer, branchNode);
+    return DRIVER[branchNode.type](reducer, branchNode);
   };
 }
 
 function recurseList(branch) {
   return function(reducer, node) {
-    return [].map.call(node[branch], (n) => REDUCERS[n.type](reducer, n));
+    return [].map.call(node[branch], (n) => DRIVER[n.type](reducer, n));
   };
 }
 
@@ -42,7 +42,7 @@ function recurseListMaybe(branch) {
   return function(reducer, node) {
     return [].map.call(node[branch], (n) => {
       if (n == null) return null;
-      return REDUCERS[n.type](reducer, n);
+      return DRIVER[n.type](reducer, n);
     });
   };
 }
@@ -105,7 +105,7 @@ const REDUCER_SPEC = {
   WithStatement: [recurse('object'), recurse('body')],
 };
 
-const REDUCERS = (function(){
+const DRIVER = (function(){
   var o = Object.create(null);
   for(let T in REDUCER_SPEC) {
     if(!{}.hasOwnProperty.call(REDUCER_SPEC, T)) continue;
@@ -120,14 +120,14 @@ const REDUCERS = (function(){
 }());
 
 
-export default function reduce(reducible, node) {
-  return REDUCERS[node.type](reducible, node);
+export default function reduce(reducer, reducible) {
+  return DRIVER[reducible.type](reducer, reducible);
 }
 
 
-export class Reducible { }
+export class Reducer { }
 
-export class MonoidalReducible extends Reducible {
+export class MonoidalReducer extends Reducer {
   constructor(monoid) {
     let empty = monoid.empty();
     this.identity = () => empty;
