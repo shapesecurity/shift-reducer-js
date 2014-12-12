@@ -1,6 +1,6 @@
 {
   "name": "laserbat-reducer",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "reducer for the LaserBat AST format",
   "author": "Shape Security Labs",
   "homepage": "https://github.com/shapesecurity/laserbat-reducer-js",
