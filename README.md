@@ -22,6 +22,8 @@ npm install laserbat-reducer
 
 ## Usage
 
+### ES6
+
 ```js
 import reduce, {MonoidalReducible} from "laserbat-reducer"
 
@@ -45,6 +47,30 @@ class IdentifierCounter extends MonoidalReducible {
 IdentifierCounter.count(PROGRAM);
 ```
 
+### ES5
+
+```js
+var reducer = require('laserbat-reducer');
+
+function IdentifierCounter() {
+  reducer.MonoidalReducer.call(this, {
+    empty : function () { return 0; },
+    concat : function (a) { return this + a; }
+  });
+}
+
+IdentifierCounter.count = function(program){
+  return reducer.default(new this, program);
+};
+
+IdentifierCounter.prototype = Object.create(reducer.MonoidalReducer.prototype);
+
+IdentifierCounter.prototype.reduceIdentifierExpression = function (node, identifier) {
+  return 1;
+};
+
+IdentifierCounter.count(PROGRAM);
+```
 
 ## Contributing
 
