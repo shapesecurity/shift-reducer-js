@@ -71,6 +71,14 @@ IdentifierCounter.prototype.reduceIdentifierExpression = function (node, identif
 IdentifierCounter.count(PROGRAM);
 ```
 
+
+### Fantasy Land
+
+![Fantasy Land logo](https://github.com/fantasyland/fantasy-land/raw/master/logo.png "Fantasy Land")
+
+The `MonoidalReducer` is compatible with [Fantasy Land](https://github.com/fantasyland/fantasy-land) Monoids.
+
+
 ## Contributing
 
 * Open a Github issue with a description of your desired change. If one exists already, leave a message stating that you are working on it with the date you expect it to be complete.
