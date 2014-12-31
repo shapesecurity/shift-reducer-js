@@ -21,62 +21,14 @@ npm install shift-reducer
 
 ## Usage
 
-### ES6
-
-```js
-import reduce, {MonoidalReducer} from "shift-reducer"
-
-class IdentifierCounter extends MonoidalReducer {
-  static count(program) {
-    return reduce(new this, program);
-  }
-
-  constructor() {
-    super(class Sum {
-      static empty() { return 0; }
-      concat(a) { return this + a; }
-    });
-  }
-
-  reduceIdentifierExpression(node, identifier) {
-    return 1;
-  }
-}
-
-IdentifierCounter.count(PROGRAM);
-```
-
-### ES5
-
-```js
-var reducer = require('shift-reducer');
-
-function IdentifierCounter() {
-  reducer.MonoidalReducer.call(this, {
-    empty : function () { return 0; },
-    concat : function (a) { return this + a; }
-  });
-}
-
-IdentifierCounter.count = function(program){
-  return reducer.default(new this, program);
-};
-
-IdentifierCounter.prototype = Object.create(reducer.MonoidalReducer.prototype);
-
-IdentifierCounter.prototype.reduceIdentifierExpression = function (node, identifier) {
-  return 1;
-};
-
-IdentifierCounter.count(PROGRAM);
-```
+See [examples](./examples).
 
 
 ### Fantasy Land
 
 ![Fantasy Land logo](https://github.com/fantasyland/fantasy-land/raw/master/logo.png "Fantasy Land")
 
-The `MonoidalReducer` is compatible with [Fantasy Land](https://github.com/fantasyland/fantasy-land) Monoids.
+`MonoidalReducer` is compatible with [Fantasy Land](https://github.com/fantasyland/fantasy-land) Monoids.
 
 
 ## Contributing
