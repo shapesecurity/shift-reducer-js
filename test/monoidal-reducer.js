@@ -46,6 +46,7 @@ suite("MonoidalReducer", () => {
         [
           new Shift.IdentifierExpression(new Shift.Identifier("a")),
           new Shift.IdentifierExpression(new Shift.Identifier("b")),
+          new Shift.LiteralInfinityExpression,
         ]
       )),
     ]));

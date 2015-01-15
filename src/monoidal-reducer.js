@@ -118,6 +118,9 @@ export default class MonoidalReducer {
   reduceLiteralNullExpression(node) {
     return this.identity;
   }
+  reduceLiteralInfinityExpression(node) {
+    return this.identity;
+  }
   reduceLiteralNumericExpression(node) {
     return this.identity;
   }

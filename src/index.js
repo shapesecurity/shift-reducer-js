@@ -78,6 +78,7 @@ const REDUCER_SPEC = {
   LabeledStatement: [recurse('label'), recurse('body')],
   LiteralBooleanExpression: [],
   LiteralNullExpression: [],
+  LiteralInfinityExpression: [],
   LiteralNumericExpression: [],
   LiteralRegExpExpression: [],
   LiteralStringExpression: [],
