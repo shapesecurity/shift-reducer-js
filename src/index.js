@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-import * as Shift from "shift-ast"
 import MonoidalReducer from "./monoidal-reducer"
 export {MonoidalReducer};
 
