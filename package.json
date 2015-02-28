@@ -16,7 +16,9 @@
     "test": "mocha --compilers js:./babel-register --inline-diffs --check-leaks --ui tdd --reporter dot test",
     "build": "babel --modules commonStrict --source-maps-inline --out-dir dist src"
   },
-  "dependencies": {},
+  "dependencies": {
+    "shift-spec": "^2.0.0"
+  },
   "devDependencies": {
     "babel": "4.3.0",
     "mocha": "^2.0.1",
