@@ -16,8 +16,8 @@
 
 import * as assert from "assert"
 
-import * as Shift from "shift-ast"
-import reduce, {MonoidalReducer} from "../"
+import reduce, {MonoidalReducer} from "../";
+import {parseModule} from "shift-parser";
 
 suite("MonoidalReducer", () => {
 
@@ -40,18 +40,10 @@ suite("MonoidalReducer", () => {
       }
     }
 
-    const PROGRAM = new Shift.Script(new Shift.FunctionBody([], [
-      new Shift.ExpressionStatement(new Shift.CallExpression(
-        new Shift.IdentifierExpression(new Shift.Identifier("f")),
-        [
-          new Shift.IdentifierExpression(new Shift.Identifier("a")),
-          new Shift.IdentifierExpression(new Shift.Identifier("b")),
-          new Shift.LiteralInfinityExpression,
-        ]
-      )),
-    ]));
-
-    assert.equal(IdentifierCounter.count(PROGRAM), 3);
+    assert.equal(IdentifierCounter.count(parseModule("f(a,b,2e308)")), 3);
+    assert.equal(IdentifierCounter.count(parseModule("[a,b]=0")), 0);
+    assert.equal(IdentifierCounter.count(parseModule("[a,b]")), 2);
+    assert.equal(IdentifierCounter.count(parseModule("this")), 0);
   });
 
 });

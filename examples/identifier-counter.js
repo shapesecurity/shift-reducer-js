@@ -1,5 +1,5 @@
-import parse from "shift-parser";
-import reduce, {MonoidalReducer} from "shift-reducer";
+import {parseScript} from "shift-parser";
+import reduce, {MonoidalReducer} from "../";
 
 class IdentifierCounter extends MonoidalReducer {
   static count(program) {
@@ -7,16 +7,17 @@ class IdentifierCounter extends MonoidalReducer {
   }
 
   constructor() {
-    super(class Sum {
+    class Sum {
       static empty() { return 0; }
       concat(a) { return this + a; }
-    });
+    }
+    super(Sum);
   }
 
-  reduceIdentifierExpression(node, identifier) {
+  IdentifierExpression(node, identifier) {
     return 1;
   }
 }
 
 let program = `function f() { hello(world); }`;
-console.dir(IdentifierCounter.count(parse(program)));
+console.dir(IdentifierCounter.count(parseScript(program)));
