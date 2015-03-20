@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import ShiftSpec from "shift-spec";
+import ShiftSpec from "shift-spec-js";
 
 const methods = {};
 

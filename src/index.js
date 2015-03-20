@@ -14,71 +14,40 @@
  * limitations under the License.
  */
 
-import MonoidalReducer from "./monoidal-reducer";
-export {MonoidalReducer};
+import ShiftSpec from "shift-spec-js";
 
-import SPEC from "shift-spec";
-
-// Get the concrete spec for union type.
-function getSpec(typeName, spec) {
-  for (let i = 0; i < spec.arguments.length; i++) {
-    if (spec.arguments[i].typeName === "Union") {
-      let s = getSpec(typeName, spec.arguments[i]);
-      if (s) return s;
-    }
-    if (typeName === spec.arguments[i].typeName) {
-      return spec.arguments[i];
-    }
-  }
-  return null;
-}
-
-function genTransformWithSpec(unionTransformer) {
-  return function transformWithSpec(transformer, node, spec) {
-    switch (spec.typeName) {
-      case "Enum":
-      case "String":
-      case "Number":
-      case "Boolean":
-        return node;
-      case "Maybe":
-        return node && transformWithSpec(transformer, node, spec.argument);
-      case "List":
-        return node.map(r => transformWithSpec(transformer, r, spec.argument));
-      case "Union":
-        return unionTransformer(transformWithSpec, transformer, node, spec);
-      default:
-      {
-        let state = {};
-        spec.fields.forEach(field => {
-          if (field.name === "type" || field.name === "loc") {
-            state[field.name] = node[field.name];
-          } else {
-            state[field.name] = transformWithSpec(transformer, node[field.name], field.type);
-          }
-        });
-        return transformer["reduce" + node.type] ? transformer["reduce" + node.type](node, state) : state;
-      }
+function transformWithSpec(transformer, node, spec) {
+  switch (spec.typeName) {
+    case "Enum":
+    case "String":
+    case "Number":
+    case "Boolean":
+    case "SourceSpan":
+      return node;
+    case "Const":
+      // TODO: checked version
+      return transformWithSpec(transformer, node, spec.argument);
+    case "Maybe":
+      return node && transformWithSpec(transformer, node, spec.argument);
+    case "List":
+      return node.map(e => transformWithSpec(transformer, e, spec.argument));
+    case "Union":
+      // TODO: checked version
+      return transformWithSpec(transformer, node, ShiftSpec[node.type]);
+    default:
+    {
+      let state = {};
+      spec.fields.forEach(field => {
+        state[field.name] = transformWithSpec(transformer, node[field.name], field.type);
+      });
+      return transformer["reduce" + node.type](node, state);
     }
   }
 }
-
-function checkedUnion(transformWithSpec, transformer, node, spec) {
-  let s = getSpec(node.type, spec);
-  return s && transformWithSpec(transformer, node, s);
-}
-
-function uncheckedUnion(transformWithSpec, transformer, node) {
-  return transformWithSpec(transformer, node, SPEC[node.type]);
-}
-
-export const transformChecked = genTransformWithSpec(checkedUnion);
-export const transformUnchecked = genTransformWithSpec(uncheckedUnion);
 
 export default function reduce(reducer, reducible) {
-  return transformChecked(reducer, reducible, SPEC[reducible.type]);
+  return transformWithSpec(reducer, reducible, ShiftSpec[reducible.type]);
 }
 
-export function reduceUnchecked(reducer, reducible) {
-  return transformChecked(reducer, reducible, SPEC[reducible.type]);
-}
+export {default as CloneReducer} from "./clone-reducer";
+export {default as MonoidalReducer} from "./monoidal-reducer";
