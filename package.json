@@ -1,6 +1,6 @@
 {
   "name": "shift-reducer",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "reducer for the Shift AST format",
   "author": "Shape Security Labs",
   "homepage": "https://github.com/shapesecurity/shift-reducer-js",
@@ -16,11 +16,13 @@
     "test": "mocha --compilers js:./babel-register --inline-diffs --check-leaks --ui tdd --reporter dot test",
     "build": "babel --modules commonStrict --source-maps-inline --out-dir dist src"
   },
-  "dependencies": {},
+  "dependencies": {
+    "shift-spec-js": "^1.0.1"
+  },
   "devDependencies": {
-    "babel": "4.3.0",
-    "mocha": "^2.0.1",
-    "shift-ast": "^1.1.0"
+    "babel": "4.7.16",
+    "mocha": "^2.2.1",
+    "shift-parser": "^2.0.0"
   },
   "keywords": [
     "Shift",
