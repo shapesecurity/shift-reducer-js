@@ -35,14 +35,17 @@ suite("MonoidalReducer", () => {
         });
       }
 
-      reduceIdentifierExpression(node, identifier) {
+      reduceIdentifierExpression(node, state) {
         return 1;
       }
     }
 
-    assert.equal(IdentifierCounter.count(parseModule("f(a,b,2e308)")), 3);
-    assert.equal(IdentifierCounter.count(parseModule("[a,b]=0")), 0);
-    assert.equal(IdentifierCounter.count(parseModule("[a,b]")), 2);
+    assert.equal(IdentifierCounter.count(parseModule("f(a, b, 2e308)")), 3);
+    assert.equal(IdentifierCounter.count(parseModule("[a, b]=0")), 0);
+    assert.equal(IdentifierCounter.count(parseModule("[a, b]")), 2);
+    assert.equal(IdentifierCounter.count(parseModule("[a, b, ...c]")), 3);
+    assert.equal(IdentifierCounter.count(parseModule("[,a,,] = [,b,,]")), 1);
+    assert.equal(IdentifierCounter.count(parseModule("export {a as b} from 'a'; var a;")), 0);
     assert.equal(IdentifierCounter.count(parseModule("this")), 0);
   });
 

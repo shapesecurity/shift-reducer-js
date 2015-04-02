@@ -18,42 +18,46 @@ import ShiftSpec from "shift-spec-js";
 
 const methods = {};
 
+function id(x) { return x; }
+
+function handlerForFieldOfType(type) {
+  switch (type.typeName) {
+    case "Enum":
+    case "String":
+    case "Boolean":
+    case "Number":
+    case "SourceSpan":
+      return null
+    case "Const":
+      return handlerForFieldOfType(type.argument);
+    case "Maybe": {
+      let subHandler = handlerForFieldOfType(type.argument);
+      if (subHandler == null) return null;
+      return function (t) { return t == null ? this.identity : subHandler.call(this, t); };
+    }
+    case "List": {
+      let subHandler = handlerForFieldOfType(type.argument);
+      if (subHandler == null) return null;
+      return function (t) { return this.fold(t.map(x => subHandler.call(this, x))); };
+    }
+    default:
+      return id;
+  }
+}
+
 for (let typeName in ShiftSpec) {
   let type = ShiftSpec[typeName];
 
-  if (type.typeName === "SourceLocation" || type.typeName === "SourceSpan") {
-    continue;
-  }
-
-  let fields = [];
-
+  let handlers = {};
   type.fields.forEach(field => {
-    if (field.name === "type" || field.name === "loc") return;
-    let fieldName = field.name;
-    switch (field.type.typeName) {
-      case "Enum":
-      case "String":
-      case "Boolean":
-      case "Number":
-        return;
-      case "Maybe":
-        fields.push(function (t, id) {
-          return t[fieldName] === null ? this.identity : t[fieldName];
-        });
-        break;
-      case "List":
-        fields.push(function (t) {
-          return this.fold(t[fieldName]);
-        });
-        break;
-      default:
-        fields.push(t=>t[fieldName]);
-    }
+    let handler = handlerForFieldOfType(field.type);
+    if (handler != null) handlers[field.name] = handler;
   });
+  let fieldNames = Object.keys(handlers);
 
-  methods["reduce" + typeName] = {
-    value: function (node, t) {
-      return this.fold(fields.map(f => f.call(this, t)));
+  methods[`reduce${typeName}`] = {
+    value: function (node, state) {
+      return this.fold(fieldNames.map(fieldName => handlers[fieldName].call(this, state[fieldName])));
     }
   };
 }

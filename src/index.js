@@ -38,7 +38,8 @@ function transformWithSpec(transformer, node, spec) {
     {
       let state = {};
       spec.fields.forEach(field => {
-        state[field.name] = transformWithSpec(transformer, node[field.name], field.type);
+        let v = transformWithSpec(transformer, node[field.name], field.type);
+        state[field.name] = v == null ? null : v;
       });
       return transformer["reduce" + node.type](node, state);
     }

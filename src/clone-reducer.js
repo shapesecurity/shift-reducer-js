@@ -20,5 +20,7 @@ export default class CloneReducer { }
 
 for (let typeName in ShiftSpec) {
   let type = ShiftSpec[typeName];
-  Object.defineProperty(CloneReducer.prototype, "reduce" + typeName, { value: function(node, state) { return state; } });
+  Object.defineProperty(CloneReducer.prototype, `reduce${typeName}`, {
+    value: function(node, state) { return state; }
+  });
 }
