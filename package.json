@@ -17,7 +17,7 @@
     "build": "babel --modules commonStrict --source-maps-inline --out-dir dist src"
   },
   "dependencies": {
-    "shift-spec-js": "^1.0.1"
+    "shift-spec": "^2015.1.0"
   },
   "devDependencies": {
     "babel": "4.7.16",
