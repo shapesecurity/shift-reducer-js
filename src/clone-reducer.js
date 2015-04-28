@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import ShiftSpec from "shift-spec-js";
+import ShiftSpec from "shift-spec";
 
 export default class CloneReducer { }
 
