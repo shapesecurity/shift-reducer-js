@@ -49,4 +49,37 @@ suite("MonoidalReducer", () => {
     assert.equal(IdentifierCounter.count(parseModule("this")), 0);
   });
 
+  test("simple IdentifierCollector example", () => {
+
+    let EMPTY;
+    class Collector {
+      constructor(x) { this.value = x; }
+      static empty() { return EMPTY; }
+      concat(a) { return new Collector(this.value.concat(a.value)); }
+    }
+    EMPTY = new Collector([]);
+
+    class IdentifierCollector extends MonoidalReducer {
+      static collect(program) {
+        return reduce(new this, program).value;
+      }
+
+      constructor() {
+        super(Collector);
+      }
+
+      reduceIdentifierExpression(node, state) {
+        return new Collector([node.name]);
+      }
+    }
+
+    assert.deepEqual(IdentifierCollector.collect(parseModule("f(a, b, 2e308)")).sort(), ["a", "b", "f"]);
+    assert.deepEqual(IdentifierCollector.collect(parseModule("[a, b]=0")), []);
+    assert.deepEqual(IdentifierCollector.collect(parseModule("[a, b]")).sort(), ["a", "b"]);
+    assert.deepEqual(IdentifierCollector.collect(parseModule("[a, b, ...c]")).sort(), ["a", "b", "c"]);
+    assert.deepEqual(IdentifierCollector.collect(parseModule("[,a,,] = [,b,,]")), ["b"]);
+    assert.deepEqual(IdentifierCollector.collect(parseModule("export {a as b} from 'a'; var a;")), []);
+    assert.deepEqual(IdentifierCollector.collect(parseModule("this")), []);
+  });
+
 });
