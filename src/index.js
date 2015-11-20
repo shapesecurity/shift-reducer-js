@@ -35,14 +35,12 @@ function transformWithSpec(transformer, node, spec) {
       // TODO: checked version
       return transformWithSpec(transformer, node, ShiftSpec[node.type]);
     default:
-    {
       let state = {};
       spec.fields.forEach(field => {
         let v = transformWithSpec(transformer, node[field.name], field.type);
         state[field.name] = v == null ? null : v;
       });
       return transformer["reduce" + node.type](node, state);
-    }
   }
 }
 
