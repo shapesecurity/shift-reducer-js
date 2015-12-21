@@ -40,6 +40,9 @@ function transformWithSpec(transformer, node, spec) {
         let v = transformWithSpec(transformer, node[field.name], field.type);
         state[field.name] = v == null ? null : v;
       });
+      if (typeof transformer["reduce" + node.type] !== "function") {
+        throw new Error(`Encountered ${node.type}, which the provided reducer does not handle.`);
+      }
       return transformer["reduce" + node.type](node, state);
   }
 }
