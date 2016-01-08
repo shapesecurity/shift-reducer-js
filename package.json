@@ -1,6 +1,6 @@
 {
   "name": "shift-reducer",
-  "version": "2.0.6",
+  "version": "3.0.0",
   "description": "reducer for the Shift AST format",
   "author": "Shape Security Labs",
   "homepage": "https://github.com/shapesecurity/shift-reducer-js",
@@ -13,17 +13,19 @@
     "dist"
   ],
   "scripts": {
-    "test": "mocha --compilers js:./babel-register --inline-diffs --check-leaks --ui tdd --reporter dot test",
-    "build": "babel --modules commonStrict --source-maps-inline --out-dir dist src",
-    "prepublish": "rm -rf dist && npm update && npm run build"
+    "test": "mocha --compilers js:babel-core/register --inline-diffs --check-leaks --ui tdd --reporter dot test",
+    "build": "babel --source-maps-inline --out-dir dist src",
+    "prepublish": "rm -rf dist && npm update && npm run build && (if ! (git rev-list -1 v$npm_package_version 2>&1 > /dev/null) || [ \"$(git rev-parse HEAD)\" != \"$(git rev-list -1 v$npm_package_version)\" ]; then printf \"\\e[31mPackage version does not have corresponding git tag at HEAD.\\e[0m\\n\"; exit 1; fi)"
   },
   "dependencies": {
-    "shift-spec": "^2015.1.3"
+    "shift-spec": "2015.2.0"
   },
   "devDependencies": {
-    "babel": "5.8.21",
-    "mocha": "^2.2.5",
-    "shift-parser": "^3.0.1"
+    "babel-cli": "6.3.13",
+    "babel-register": "6.3.13",
+    "babel-preset-es2015": "6.3.13",
+    "mocha": "^2.3.4",
+    "shift-parser": "^3.0.0"
   },
   "keywords": [
     "Shift",
