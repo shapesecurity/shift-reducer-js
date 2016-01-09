@@ -15,7 +15,7 @@
   "scripts": {
     "test": "mocha --compilers js:babel-core/register --inline-diffs --check-leaks --ui tdd --reporter dot test",
     "build": "babel --source-maps-inline --out-dir dist src",
-    "prepublish": "rm -rf dist && npm update && npm run build && npm test && (if ! (git rev-list -1 v$npm_package_version 2>&1 > /dev/null) || [ \"$(git rev-parse HEAD)\" != \"$(git rev-list -1 v$npm_package_version)\" ]; then printf \"\\e[31mPackage version does not have corresponding git tag at HEAD.\\e[0m\\n\"; exit 1; fi)"
+    "prepublish": "rm -rf dist && npm update && npm run build"
   },
   "dependencies": {
     "shift-spec": "2015.2.0"
