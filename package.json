@@ -13,12 +13,12 @@
     "dist"
   ],
   "scripts": {
-    "test": "mocha --compilers js:babel-core/register --inline-diffs --check-leaks --ui tdd --reporter dot test",
+    "test": "mocha --compilers js:babel-register --inline-diffs --check-leaks --ui tdd --reporter dot test",
     "build": "babel --source-maps-inline --out-dir dist src",
     "prepublish": "rm -rf dist && npm update && npm run build"
   },
   "dependencies": {
-    "shift-spec": "2015.2.0"
+    "shift-spec": "^2015.2.0"
   },
   "devDependencies": {
     "babel-cli": "6.3.13",
