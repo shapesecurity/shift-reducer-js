@@ -1,5 +1,5 @@
 /**
- * Copyright 2014 Shape Security, Inc.
+ * Copyright 2016 Shape Security, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License")
  * you may not use this file except in compliance with the License.
@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-import * as assert from "assert"
+const assert = require("assert");
 
-import reduce, {MonoidalReducer} from "../";
-import {parseModule} from "shift-parser";
+const {MonoidalReducer, default: reduce} = require("../");
+const {parseModule} = require("shift-parser");
 
 suite("MonoidalReducer", () => {
 
