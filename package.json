@@ -13,7 +13,7 @@
     "dist"
   ],
   "scripts": {
-    "test": "mocha --inline-diffs --check-leaks --ui tdd --reporter dot test",
+    "test": "mocha --compilers js:babel-register --inline-diffs --check-leaks --ui tdd --reporter dot test",
     "build": "mkdir -p gen dist && node src/generate-clone-reducer.js && node src/generate-monoidal-reducer.js && node src/generate-index.js && babel --out-dir dist gen",
     "prepublish": "rm -rf dist && npm update && npm run build"
   },
