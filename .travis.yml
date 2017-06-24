@@ -8,6 +8,6 @@ script:
   - nvm install $TRAVIS_NODE_VERSION
   - npm test
 node_js:
-  - "0.12"
   - "4"
   - "6"
+  - "8"
