@@ -90,7 +90,7 @@ for (let typeName in spec) {
     let param = statefulFields.length > 0 ? `, {${statefulFields.map(f => parameterize(f.name)).join(', ')}}` : '';
     content += `
   reduce${typeName}(node${param}) {
-    return new Shift.${typeName}(node, {${fields.map(cloneField).join(', ')}});
+    return new Shift.${typeName}({${fields.map(cloneField).join(', ')}});
   }
 `;
   }
