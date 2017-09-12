@@ -23,14 +23,18 @@ const fs = require('fs');
 
 suite('clone', () => {
   describe('everything.js', () => {
-    it('should clone to itself', () => {
-      let tree;
+    it('should clone to a thing which is equal to itself, but not itself', () => {
+      let tree, clonedTree;
 
       tree = parseModule(fs.readFileSync(require.resolve('everything.js/es2015-module'), 'utf8'));
-      assert.deepEqual(tree, reduce(new CloneReducer, tree));
+      clonedTree = reduce(new CloneReducer, tree);
+      assert.deepEqual(tree, clonedTree);
+      assert.notEqual(tree, clonedTree);
 
       tree = parseScript(fs.readFileSync(require.resolve('everything.js/es2015-script'), 'utf8'));
-      assert.deepEqual(tree, reduce(new CloneReducer, tree));
+      clonedTree = reduce(new CloneReducer, tree);
+      assert.deepEqual(tree, clonedTree);
+      assert.notEqual(tree, clonedTree);
     });
   });
 });

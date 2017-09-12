@@ -93,6 +93,7 @@ export default function reduce(reducer, node) {
 }
 
 export {default as CloneReducer} from "./clone-reducer";
+export {default as LazyCloneReducer} from "./lazy-clone-reducer";
 export {default as MonoidalReducer} from "./monoidal-reducer";
 
 `;
