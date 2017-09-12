@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-"use strict";
+'use strict';
 
 let spec = require('shift-spec').default;
 const {isRestrictedWord, isReservedWordES6} = require('esutils').keyword;
@@ -40,6 +40,10 @@ function asParameter(fieldName) {
   return fieldName;
 }
 
+function isNodeOrUnionOfNodes(type) {
+  return type.typeName === 'Union' && type.arguments.every(isNodeOrUnionOfNodes) || spec.hasOwnProperty(type.typeName);
+}
+
 function isStatefulType(type) {
   switch (type.typeName) {
     case 'Enum':
@@ -50,8 +54,13 @@ function isStatefulType(type) {
     case 'Maybe':
     case 'List':
       return isStatefulType(type.argument);
+    case 'Union':
+      return type.arguments.some(isStatefulType);
     default:
-      return true;
+      if (isNodeOrUnionOfNodes(type)) {
+        return true;
+      }
+      throw new Error('unimplemented: type ' + type);
   } 
 }
 
@@ -72,12 +81,26 @@ function generateEquals(type, a, b) {
         case 'List':
           throw new Error('unimplemented: lists of lists');
         case 'Maybe':
+          if (isNodeOrUnionOfNodes(type.argument.argument)) {
+            return `(${a}.length === ${b}.length && ${a}.every((v, i) => v === ${b}[i]))`;
+          }
+          throw new Error('unimplemented: list of maybe of ' + type.argument.argument);
         default:
-          return `(${a}.length === ${b}.length && ${a}.every((v, i) => v === ${b}[i]))`;
+          if (isNodeOrUnionOfNodes(type.argument)) {
+            return `(${a}.length === ${b}.length && ${a}.every((v, i) => v === ${b}[i]))`;
+          }
+          throw new Error('unimplemented: list of ' + type.argument);
       }
     case 'Maybe':
+      if (isNodeOrUnionOfNodes(type.argument)) {
+        return a + ' === ' + b;
+      }
+      throw new Error('unimplemented: maybe of ' + type.argument);
     default:
-      return a + ' === ' + b;
+      if (isNodeOrUnionOfNodes(type)) {
+        return a + ' === ' + b;
+      }
+      throw new Error('unimplemented: ' + type);
   } 
 }
 
