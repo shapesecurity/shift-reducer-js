@@ -14,18 +14,18 @@
  * limitations under the License.
  */
 
-const assert = require("assert");
+const assert = require('assert');
 
-const {default: reduce} = require("../");
-const {parseModule} = require("shift-parser");
+const { default: reduce } = require('../');
+const { parseModule } = require('shift-parser');
 
-suite("unit", () => {
+suite('unit', () => {
 
-  test("empty reducer throws", () => {
-    assert.throws(() => reduce({}, parseModule("null;")));
+  test('empty reducer throws', () => {
+    assert.throws(() => reduce({}, parseModule('null;')));
   });
 
-  test("nonempty reducer does not throw", () => {
+  test('nonempty reducer does not throw', () => {
     const literalNullReducer = {
       reduceExpressionStatement(node, state) {
         return state;
@@ -35,9 +35,9 @@ suite("unit", () => {
       },
       reduceModule(node, state) {
         return state;
-      }
+      },
     };
-    assert.doesNotThrow(() => reduce(literalNullReducer, parseModule("null;")));
+    assert.doesNotThrow(() => reduce(literalNullReducer, parseModule('null;')));
   });
 
 });

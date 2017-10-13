@@ -14,10 +14,9 @@
  * limitations under the License.
  */
 
-"use strict";
+'use strict';
 
 const spec = require('shift-spec').default;
-const {isRestrictedWord, isReservedWordES6} = require('esutils').keyword;
 
 function isStatefulType(type) {
   switch (type.typeName) {
@@ -31,7 +30,7 @@ function isStatefulType(type) {
       return isStatefulType(type.argument);
     default:
       return true;
-  } 
+  }
 }
 
 let content = `/**
@@ -65,8 +64,7 @@ function reduce(name, type) {
   }
 }
 
-for (let typeName in spec) {
-  let type = spec[typeName];
+for (let [typeName, type] of Object.entries(spec)) {
   let fields = type.fields.filter(f => f.name !== 'type' && isStatefulType(f.type));
   if (fields.length === 0) {
     content += `
@@ -78,23 +76,23 @@ for (let typeName in spec) {
   } else {
     content += `
   ${typeName}(reducer, node) {
-    return reducer.reduce${typeName}(node, {${fields.map(f => `${f.name}: ${reduce(`node.${f.name}`, f.type)}`).join(', ')}});
+    return reducer.reduce${typeName}(node, { ${fields.map(f => `${f.name}: ${reduce(`node.${f.name}`, f.type)}`).join(', ')} });
   },
 `;
 
   }
 }
 
-content += `}
+content += `};
 
 
 export default function reduce(reducer, node) {
   return director[node.type](reducer, node);
 }
 
-export {default as CloneReducer} from "./clone-reducer";
-export {default as LazyCloneReducer} from "./lazy-clone-reducer";
-export {default as MonoidalReducer} from "./monoidal-reducer";
+export { default as CloneReducer } from './clone-reducer';
+export { default as LazyCloneReducer } from './lazy-clone-reducer';
+export { default as MonoidalReducer } from './monoidal-reducer';
 
 `;
 

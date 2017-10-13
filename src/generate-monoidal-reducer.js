@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-"use strict";
+'use strict';
 
 let spec = require('shift-spec').default;
-const {isRestrictedWord, isReservedWordES6} = require('esutils').keyword;
+const { isRestrictedWord, isReservedWordES6 } = require('esutils').keyword;
 
 function sanitize(fieldName) {
   if (isRestrictedWord(fieldName) || isReservedWordES6(fieldName)) {
@@ -45,7 +45,7 @@ function isStatefulType(type) {
       return isStatefulType(type.argument);
     default:
       return true;
-  } 
+  }
 }
 
 let content = `/**
@@ -78,8 +78,8 @@ export default class MonoidalReducer {
   }
 `;
 
-function reduce({name, type}) {
-  switch(type.typeName) {
+function reduce({ name, type }) {
+  switch (type.typeName) {
     case 'Maybe':
       return `${sanitize(name)} === null ? this.identity : ${sanitize(name)}`;
     case 'List':
@@ -92,8 +92,7 @@ function reduce({name, type}) {
   }
 }
 
-for (let typeName in spec) {
-  let type = spec[typeName];
+for (let [typeName, type] of Object.entries(spec)) {
   let fields = type.fields.filter(f => f.name !== 'type' && isStatefulType(f.type));
   if (fields.length === 0) {
     content += `
@@ -102,7 +101,7 @@ for (let typeName in spec) {
   }
 `;
   } else {
-    let param = `{${fields.map(f => parameterize(f.name)).join(', ')}}`;
+    let param = `{ ${fields.map(f => parameterize(f.name)).join(', ')} }`;
     content += `
   reduce${typeName}(node, ${param}) {
     `;
