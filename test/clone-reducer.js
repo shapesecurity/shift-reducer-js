@@ -16,8 +16,8 @@
 
 const assert = require('assert');
 
-const {CloneReducer, default: reduce} = require('../');
-const {parseScript, parseModule} = require('shift-parser');
+const { CloneReducer, default: reduce } = require('../');
+const { parseScript, parseModule } = require('shift-parser');
 
 const fs = require('fs');
 

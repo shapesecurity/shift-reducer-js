@@ -17,14 +17,7 @@
 'use strict';
 
 let spec = require('shift-spec').default;
-const {isRestrictedWord, isReservedWordES6} = require('esutils').keyword;
-
-function sanitize(fieldName) {
-  if (isRestrictedWord(fieldName) || isReservedWordES6(fieldName)) {
-    return '_' + fieldName;
-  }
-  return fieldName;
-}
+const { isRestrictedWord, isReservedWordES6 } = require('esutils').keyword;
 
 function parameterize(fieldName) {
   if (isRestrictedWord(fieldName) || isReservedWordES6(fieldName)) {
@@ -61,7 +54,7 @@ function isStatefulType(type) {
         return true;
       }
       throw new Error('unimplemented: type ' + type);
-  } 
+  }
 }
 
 function generateEquals(type, a, b) {
@@ -101,7 +94,7 @@ function generateEquals(type, a, b) {
         return a + ' === ' + b;
       }
       throw new Error('unimplemented: ' + type);
-  } 
+  }
 }
 
 let content = `/**
@@ -127,16 +120,14 @@ export default class LazyCloneReducer {`;
 function cloneField(f) {
   if (!isStatefulType(f.type)) {
     return `${f.name}: node.${f.name}`;
-  } else {
-    return asParameter(f.name);
   }
+  return asParameter(f.name);
 }
 
-for (let typeName in spec) {
-  let type = spec[typeName];
+for (let [typeName, type] of Object.entries(spec)) {
   let fields = type.fields.filter(f => f.name !== 'type');
   let statefulFields = fields.filter(f => isStatefulType(f.type));
-  let param = statefulFields.length > 0 ? `, {${statefulFields.map(f => asParameter(f.name)).join(', ')}}` : '';
+  let param = statefulFields.length > 0 ? `, { ${statefulFields.map(f => asParameter(f.name)).join(', ')} }` : '';
   content += `
   reduce${typeName}(node${param}) {`;
   if (statefulFields.length === 0) {
@@ -149,7 +140,7 @@ for (let typeName in spec) {
     if (${statefulFields.map(f => generateEquals(f.type, 'node.' + f.name, parameterize(f.name))).join(' && ')}) {
       return node;
     }
-    return new Shift.${typeName}({${fields.map(cloneField).join(', ')}});
+    return new Shift.${typeName}({ ${fields.map(cloneField).join(', ')} });
   }
 `;
   }

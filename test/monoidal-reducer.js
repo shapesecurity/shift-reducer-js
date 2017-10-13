@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-const assert = require("assert");
+const assert = require('assert');
 
-const {MonoidalReducer, default: reduce} = require("../");
-const {parseModule} = require("shift-parser");
+const { MonoidalReducer, default: reduce } = require('../');
+const { parseModule } = require('shift-parser');
 
-suite("MonoidalReducer", () => {
+suite('MonoidalReducer', () => {
 
-  test("simple IdentifierCounter example", () => {
+  test('simple IdentifierCounter example', () => {
 
     class IdentifierCounter extends MonoidalReducer {
       static count(program) {
@@ -30,32 +30,42 @@ suite("MonoidalReducer", () => {
 
       constructor() {
         super(class Sum {
-          static empty() { return 0; }
-          concat(a) { return this + a; }
+          static empty() {
+            return 0;
+          }
+          concat(a) {
+            return this + a;
+          }
         });
       }
 
-      reduceIdentifierExpression(node, state) {
+      reduceIdentifierExpression() {
         return 1;
       }
     }
 
-    assert.equal(IdentifierCounter.count(parseModule("f(a, b, 2e308)")), 3);
-    assert.equal(IdentifierCounter.count(parseModule("[a, b]=0")), 0);
-    assert.equal(IdentifierCounter.count(parseModule("[a, b]")), 2);
-    assert.equal(IdentifierCounter.count(parseModule("[a, b, ...c]")), 3);
-    assert.equal(IdentifierCounter.count(parseModule("[,a,,] = [,b,,]")), 1);
-    assert.equal(IdentifierCounter.count(parseModule("export {a as b} from 'a'; var a;")), 0);
-    assert.equal(IdentifierCounter.count(parseModule("this")), 0);
+    assert.equal(IdentifierCounter.count(parseModule('f(a, b, 2e308)')), 3);
+    assert.equal(IdentifierCounter.count(parseModule('[a, b]=0')), 0);
+    assert.equal(IdentifierCounter.count(parseModule('[a, b]')), 2);
+    assert.equal(IdentifierCounter.count(parseModule('[a, b, ...c]')), 3);
+    assert.equal(IdentifierCounter.count(parseModule('[,a,,] = [,b,,]')), 1);
+    assert.equal(IdentifierCounter.count(parseModule('export {a as b} from \'a\'; var a;')), 0);
+    assert.equal(IdentifierCounter.count(parseModule('this')), 0);
   });
 
-  test("simple IdentifierCollector example", () => {
+  test('simple IdentifierCollector example', () => {
 
     let EMPTY;
     class Collector {
-      constructor(x) { this.value = x; }
-      static empty() { return EMPTY; }
-      concat(a) { return new Collector(this.value.concat(a.value)); }
+      constructor(x) {
+        this.value = x;
+      }
+      static empty() {
+        return EMPTY;
+      }
+      concat(a) {
+        return new Collector(this.value.concat(a.value));
+      }
     }
     EMPTY = new Collector([]);
 
@@ -68,18 +78,18 @@ suite("MonoidalReducer", () => {
         super(Collector);
       }
 
-      reduceIdentifierExpression(node, state) {
+      reduceIdentifierExpression(node) {
         return new Collector([node.name]);
       }
     }
 
-    assert.deepEqual(IdentifierCollector.collect(parseModule("f(a, b, 2e308)")).sort(), ["a", "b", "f"]);
-    assert.deepEqual(IdentifierCollector.collect(parseModule("[a, b]=0")), []);
-    assert.deepEqual(IdentifierCollector.collect(parseModule("[a, b]")).sort(), ["a", "b"]);
-    assert.deepEqual(IdentifierCollector.collect(parseModule("[a, b, ...c]")).sort(), ["a", "b", "c"]);
-    assert.deepEqual(IdentifierCollector.collect(parseModule("[,a,,] = [,b,,]")), ["b"]);
-    assert.deepEqual(IdentifierCollector.collect(parseModule("export {a as b} from 'a'; var a;")), []);
-    assert.deepEqual(IdentifierCollector.collect(parseModule("this")), []);
+    assert.deepEqual(IdentifierCollector.collect(parseModule('f(a, b, 2e308)')).sort(), ['a', 'b', 'f']);
+    assert.deepEqual(IdentifierCollector.collect(parseModule('[a, b]=0')), []);
+    assert.deepEqual(IdentifierCollector.collect(parseModule('[a, b]')).sort(), ['a', 'b']);
+    assert.deepEqual(IdentifierCollector.collect(parseModule('[a, b, ...c]')).sort(), ['a', 'b', 'c']);
+    assert.deepEqual(IdentifierCollector.collect(parseModule('[,a,,] = [,b,,]')), ['b']);
+    assert.deepEqual(IdentifierCollector.collect(parseModule('export {a as b} from \'a\'; var a;')), []);
+    assert.deepEqual(IdentifierCollector.collect(parseModule('this')), []);
   });
 
 });

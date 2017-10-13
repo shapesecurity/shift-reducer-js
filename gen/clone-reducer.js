@@ -17,120 +17,120 @@
 import * as Shift from 'shift-ast';
 
 export default class CloneReducer {
-  reduceArrayAssignmentTarget(node, {elements, rest}) {
-    return new Shift.ArrayAssignmentTarget({elements, rest});
+  reduceArrayAssignmentTarget(node, { elements, rest }) {
+    return new Shift.ArrayAssignmentTarget({ elements, rest });
   }
 
-  reduceArrayBinding(node, {elements, rest}) {
-    return new Shift.ArrayBinding({elements, rest});
+  reduceArrayBinding(node, { elements, rest }) {
+    return new Shift.ArrayBinding({ elements, rest });
   }
 
-  reduceArrayExpression(node, {elements}) {
-    return new Shift.ArrayExpression({elements});
+  reduceArrayExpression(node, { elements }) {
+    return new Shift.ArrayExpression({ elements });
   }
 
-  reduceArrowExpression(node, {params, body}) {
-    return new Shift.ArrowExpression({params, body});
+  reduceArrowExpression(node, { params, body }) {
+    return new Shift.ArrowExpression({ params, body });
   }
 
-  reduceAssignmentExpression(node, {binding, expression}) {
-    return new Shift.AssignmentExpression({binding, expression});
+  reduceAssignmentExpression(node, { binding, expression }) {
+    return new Shift.AssignmentExpression({ binding, expression });
   }
 
   reduceAssignmentTargetIdentifier(node) {
-    return new Shift.AssignmentTargetIdentifier({name: node.name});
+    return new Shift.AssignmentTargetIdentifier({ name: node.name });
   }
 
-  reduceAssignmentTargetPropertyIdentifier(node, {binding, init}) {
-    return new Shift.AssignmentTargetPropertyIdentifier({binding, init});
+  reduceAssignmentTargetPropertyIdentifier(node, { binding, init }) {
+    return new Shift.AssignmentTargetPropertyIdentifier({ binding, init });
   }
 
-  reduceAssignmentTargetPropertyProperty(node, {name, binding}) {
-    return new Shift.AssignmentTargetPropertyProperty({name, binding});
+  reduceAssignmentTargetPropertyProperty(node, { name, binding }) {
+    return new Shift.AssignmentTargetPropertyProperty({ name, binding });
   }
 
-  reduceAssignmentTargetWithDefault(node, {binding, init}) {
-    return new Shift.AssignmentTargetWithDefault({binding, init});
+  reduceAssignmentTargetWithDefault(node, { binding, init }) {
+    return new Shift.AssignmentTargetWithDefault({ binding, init });
   }
 
-  reduceBinaryExpression(node, {left, right}) {
-    return new Shift.BinaryExpression({left, operator: node.operator, right});
+  reduceBinaryExpression(node, { left, right }) {
+    return new Shift.BinaryExpression({ left, operator: node.operator, right });
   }
 
   reduceBindingIdentifier(node) {
-    return new Shift.BindingIdentifier({name: node.name});
+    return new Shift.BindingIdentifier({ name: node.name });
   }
 
-  reduceBindingPropertyIdentifier(node, {binding, init}) {
-    return new Shift.BindingPropertyIdentifier({binding, init});
+  reduceBindingPropertyIdentifier(node, { binding, init }) {
+    return new Shift.BindingPropertyIdentifier({ binding, init });
   }
 
-  reduceBindingPropertyProperty(node, {name, binding}) {
-    return new Shift.BindingPropertyProperty({name, binding});
+  reduceBindingPropertyProperty(node, { name, binding }) {
+    return new Shift.BindingPropertyProperty({ name, binding });
   }
 
-  reduceBindingWithDefault(node, {binding, init}) {
-    return new Shift.BindingWithDefault({binding, init});
+  reduceBindingWithDefault(node, { binding, init }) {
+    return new Shift.BindingWithDefault({ binding, init });
   }
 
-  reduceBlock(node, {statements}) {
-    return new Shift.Block({statements});
+  reduceBlock(node, { statements }) {
+    return new Shift.Block({ statements });
   }
 
-  reduceBlockStatement(node, {block}) {
-    return new Shift.BlockStatement({block});
+  reduceBlockStatement(node, { block }) {
+    return new Shift.BlockStatement({ block });
   }
 
   reduceBreakStatement(node) {
-    return new Shift.BreakStatement({label: node.label});
+    return new Shift.BreakStatement({ label: node.label });
   }
 
-  reduceCallExpression(node, {callee, arguments: _arguments}) {
-    return new Shift.CallExpression({callee, arguments: _arguments});
+  reduceCallExpression(node, { callee, arguments: _arguments }) {
+    return new Shift.CallExpression({ callee, arguments: _arguments });
   }
 
-  reduceCatchClause(node, {binding, body}) {
-    return new Shift.CatchClause({binding, body});
+  reduceCatchClause(node, { binding, body }) {
+    return new Shift.CatchClause({ binding, body });
   }
 
-  reduceClassDeclaration(node, {name, super: _super, elements}) {
-    return new Shift.ClassDeclaration({name, super: _super, elements});
+  reduceClassDeclaration(node, { name, super: _super, elements }) {
+    return new Shift.ClassDeclaration({ name, super: _super, elements });
   }
 
-  reduceClassElement(node, {method}) {
-    return new Shift.ClassElement({isStatic: node.isStatic, method});
+  reduceClassElement(node, { method }) {
+    return new Shift.ClassElement({ isStatic: node.isStatic, method });
   }
 
-  reduceClassExpression(node, {name, super: _super, elements}) {
-    return new Shift.ClassExpression({name, super: _super, elements});
+  reduceClassExpression(node, { name, super: _super, elements }) {
+    return new Shift.ClassExpression({ name, super: _super, elements });
   }
 
-  reduceCompoundAssignmentExpression(node, {binding, expression}) {
-    return new Shift.CompoundAssignmentExpression({binding, operator: node.operator, expression});
+  reduceCompoundAssignmentExpression(node, { binding, expression }) {
+    return new Shift.CompoundAssignmentExpression({ binding, operator: node.operator, expression });
   }
 
-  reduceComputedMemberAssignmentTarget(node, {object, expression}) {
-    return new Shift.ComputedMemberAssignmentTarget({object, expression});
+  reduceComputedMemberAssignmentTarget(node, { object, expression }) {
+    return new Shift.ComputedMemberAssignmentTarget({ object, expression });
   }
 
-  reduceComputedMemberExpression(node, {object, expression}) {
-    return new Shift.ComputedMemberExpression({object, expression});
+  reduceComputedMemberExpression(node, { object, expression }) {
+    return new Shift.ComputedMemberExpression({ object, expression });
   }
 
-  reduceComputedPropertyName(node, {expression}) {
-    return new Shift.ComputedPropertyName({expression});
+  reduceComputedPropertyName(node, { expression }) {
+    return new Shift.ComputedPropertyName({ expression });
   }
 
-  reduceConditionalExpression(node, {test, consequent, alternate}) {
-    return new Shift.ConditionalExpression({test, consequent, alternate});
+  reduceConditionalExpression(node, { test, consequent, alternate }) {
+    return new Shift.ConditionalExpression({ test, consequent, alternate });
   }
 
   reduceContinueStatement(node) {
-    return new Shift.ContinueStatement({label: node.label});
+    return new Shift.ContinueStatement({ label: node.label });
   }
 
-  reduceDataProperty(node, {name, expression}) {
-    return new Shift.DataProperty({name, expression});
+  reduceDataProperty(node, { name, expression }) {
+    return new Shift.DataProperty({ name, expression });
   }
 
   reduceDebuggerStatement(node) {
@@ -138,107 +138,107 @@ export default class CloneReducer {
   }
 
   reduceDirective(node) {
-    return new Shift.Directive({rawValue: node.rawValue});
+    return new Shift.Directive({ rawValue: node.rawValue });
   }
 
-  reduceDoWhileStatement(node, {body, test}) {
-    return new Shift.DoWhileStatement({body, test});
+  reduceDoWhileStatement(node, { body, test }) {
+    return new Shift.DoWhileStatement({ body, test });
   }
 
   reduceEmptyStatement(node) {
     return new Shift.EmptyStatement;
   }
 
-  reduceExport(node, {declaration}) {
-    return new Shift.Export({declaration});
+  reduceExport(node, { declaration }) {
+    return new Shift.Export({ declaration });
   }
 
   reduceExportAllFrom(node) {
-    return new Shift.ExportAllFrom({moduleSpecifier: node.moduleSpecifier});
+    return new Shift.ExportAllFrom({ moduleSpecifier: node.moduleSpecifier });
   }
 
-  reduceExportDefault(node, {body}) {
-    return new Shift.ExportDefault({body});
+  reduceExportDefault(node, { body }) {
+    return new Shift.ExportDefault({ body });
   }
 
-  reduceExportFrom(node, {namedExports}) {
-    return new Shift.ExportFrom({namedExports, moduleSpecifier: node.moduleSpecifier});
+  reduceExportFrom(node, { namedExports }) {
+    return new Shift.ExportFrom({ namedExports, moduleSpecifier: node.moduleSpecifier });
   }
 
   reduceExportFromSpecifier(node) {
-    return new Shift.ExportFromSpecifier({name: node.name, exportedName: node.exportedName});
+    return new Shift.ExportFromSpecifier({ name: node.name, exportedName: node.exportedName });
   }
 
-  reduceExportLocalSpecifier(node, {name}) {
-    return new Shift.ExportLocalSpecifier({name, exportedName: node.exportedName});
+  reduceExportLocalSpecifier(node, { name }) {
+    return new Shift.ExportLocalSpecifier({ name, exportedName: node.exportedName });
   }
 
-  reduceExportLocals(node, {namedExports}) {
-    return new Shift.ExportLocals({namedExports});
+  reduceExportLocals(node, { namedExports }) {
+    return new Shift.ExportLocals({ namedExports });
   }
 
-  reduceExpressionStatement(node, {expression}) {
-    return new Shift.ExpressionStatement({expression});
+  reduceExpressionStatement(node, { expression }) {
+    return new Shift.ExpressionStatement({ expression });
   }
 
-  reduceForInStatement(node, {left, right, body}) {
-    return new Shift.ForInStatement({left, right, body});
+  reduceForInStatement(node, { left, right, body }) {
+    return new Shift.ForInStatement({ left, right, body });
   }
 
-  reduceForOfStatement(node, {left, right, body}) {
-    return new Shift.ForOfStatement({left, right, body});
+  reduceForOfStatement(node, { left, right, body }) {
+    return new Shift.ForOfStatement({ left, right, body });
   }
 
-  reduceForStatement(node, {init, test, update, body}) {
-    return new Shift.ForStatement({init, test, update, body});
+  reduceForStatement(node, { init, test, update, body }) {
+    return new Shift.ForStatement({ init, test, update, body });
   }
 
-  reduceFormalParameters(node, {items, rest}) {
-    return new Shift.FormalParameters({items, rest});
+  reduceFormalParameters(node, { items, rest }) {
+    return new Shift.FormalParameters({ items, rest });
   }
 
-  reduceFunctionBody(node, {directives, statements}) {
-    return new Shift.FunctionBody({directives, statements});
+  reduceFunctionBody(node, { directives, statements }) {
+    return new Shift.FunctionBody({ directives, statements });
   }
 
-  reduceFunctionDeclaration(node, {name, params, body}) {
-    return new Shift.FunctionDeclaration({isGenerator: node.isGenerator, name, params, body});
+  reduceFunctionDeclaration(node, { name, params, body }) {
+    return new Shift.FunctionDeclaration({ isGenerator: node.isGenerator, name, params, body });
   }
 
-  reduceFunctionExpression(node, {name, params, body}) {
-    return new Shift.FunctionExpression({isGenerator: node.isGenerator, name, params, body});
+  reduceFunctionExpression(node, { name, params, body }) {
+    return new Shift.FunctionExpression({ isGenerator: node.isGenerator, name, params, body });
   }
 
-  reduceGetter(node, {name, body}) {
-    return new Shift.Getter({name, body});
+  reduceGetter(node, { name, body }) {
+    return new Shift.Getter({ name, body });
   }
 
   reduceIdentifierExpression(node) {
-    return new Shift.IdentifierExpression({name: node.name});
+    return new Shift.IdentifierExpression({ name: node.name });
   }
 
-  reduceIfStatement(node, {test, consequent, alternate}) {
-    return new Shift.IfStatement({test, consequent, alternate});
+  reduceIfStatement(node, { test, consequent, alternate }) {
+    return new Shift.IfStatement({ test, consequent, alternate });
   }
 
-  reduceImport(node, {defaultBinding, namedImports}) {
-    return new Shift.Import({defaultBinding, namedImports, moduleSpecifier: node.moduleSpecifier});
+  reduceImport(node, { defaultBinding, namedImports }) {
+    return new Shift.Import({ defaultBinding, namedImports, moduleSpecifier: node.moduleSpecifier });
   }
 
-  reduceImportNamespace(node, {defaultBinding, namespaceBinding}) {
-    return new Shift.ImportNamespace({defaultBinding, namespaceBinding, moduleSpecifier: node.moduleSpecifier});
+  reduceImportNamespace(node, { defaultBinding, namespaceBinding }) {
+    return new Shift.ImportNamespace({ defaultBinding, namespaceBinding, moduleSpecifier: node.moduleSpecifier });
   }
 
-  reduceImportSpecifier(node, {binding}) {
-    return new Shift.ImportSpecifier({name: node.name, binding});
+  reduceImportSpecifier(node, { binding }) {
+    return new Shift.ImportSpecifier({ name: node.name, binding });
   }
 
-  reduceLabeledStatement(node, {body}) {
-    return new Shift.LabeledStatement({label: node.label, body});
+  reduceLabeledStatement(node, { body }) {
+    return new Shift.LabeledStatement({ label: node.label, body });
   }
 
   reduceLiteralBooleanExpression(node) {
-    return new Shift.LiteralBooleanExpression({value: node.value});
+    return new Shift.LiteralBooleanExpression({ value: node.value });
   }
 
   reduceLiteralInfinityExpression(node) {
@@ -250,154 +250,154 @@ export default class CloneReducer {
   }
 
   reduceLiteralNumericExpression(node) {
-    return new Shift.LiteralNumericExpression({value: node.value});
+    return new Shift.LiteralNumericExpression({ value: node.value });
   }
 
   reduceLiteralRegExpExpression(node) {
-    return new Shift.LiteralRegExpExpression({pattern: node.pattern, global: node.global, ignoreCase: node.ignoreCase, multiLine: node.multiLine, sticky: node.sticky, unicode: node.unicode});
+    return new Shift.LiteralRegExpExpression({ pattern: node.pattern, global: node.global, ignoreCase: node.ignoreCase, multiLine: node.multiLine, sticky: node.sticky, unicode: node.unicode });
   }
 
   reduceLiteralStringExpression(node) {
-    return new Shift.LiteralStringExpression({value: node.value});
+    return new Shift.LiteralStringExpression({ value: node.value });
   }
 
-  reduceMethod(node, {name, params, body}) {
-    return new Shift.Method({isGenerator: node.isGenerator, name, params, body});
+  reduceMethod(node, { name, params, body }) {
+    return new Shift.Method({ isGenerator: node.isGenerator, name, params, body });
   }
 
-  reduceModule(node, {directives, items}) {
-    return new Shift.Module({directives, items});
+  reduceModule(node, { directives, items }) {
+    return new Shift.Module({ directives, items });
   }
 
-  reduceNewExpression(node, {callee, arguments: _arguments}) {
-    return new Shift.NewExpression({callee, arguments: _arguments});
+  reduceNewExpression(node, { callee, arguments: _arguments }) {
+    return new Shift.NewExpression({ callee, arguments: _arguments });
   }
 
   reduceNewTargetExpression(node) {
     return new Shift.NewTargetExpression;
   }
 
-  reduceObjectAssignmentTarget(node, {properties}) {
-    return new Shift.ObjectAssignmentTarget({properties});
+  reduceObjectAssignmentTarget(node, { properties }) {
+    return new Shift.ObjectAssignmentTarget({ properties });
   }
 
-  reduceObjectBinding(node, {properties}) {
-    return new Shift.ObjectBinding({properties});
+  reduceObjectBinding(node, { properties }) {
+    return new Shift.ObjectBinding({ properties });
   }
 
-  reduceObjectExpression(node, {properties}) {
-    return new Shift.ObjectExpression({properties});
+  reduceObjectExpression(node, { properties }) {
+    return new Shift.ObjectExpression({ properties });
   }
 
-  reduceReturnStatement(node, {expression}) {
-    return new Shift.ReturnStatement({expression});
+  reduceReturnStatement(node, { expression }) {
+    return new Shift.ReturnStatement({ expression });
   }
 
-  reduceScript(node, {directives, statements}) {
-    return new Shift.Script({directives, statements});
+  reduceScript(node, { directives, statements }) {
+    return new Shift.Script({ directives, statements });
   }
 
-  reduceSetter(node, {name, param, body}) {
-    return new Shift.Setter({name, param, body});
+  reduceSetter(node, { name, param, body }) {
+    return new Shift.Setter({ name, param, body });
   }
 
-  reduceShorthandProperty(node, {name}) {
-    return new Shift.ShorthandProperty({name});
+  reduceShorthandProperty(node, { name }) {
+    return new Shift.ShorthandProperty({ name });
   }
 
-  reduceSpreadElement(node, {expression}) {
-    return new Shift.SpreadElement({expression});
+  reduceSpreadElement(node, { expression }) {
+    return new Shift.SpreadElement({ expression });
   }
 
-  reduceStaticMemberAssignmentTarget(node, {object}) {
-    return new Shift.StaticMemberAssignmentTarget({object, property: node.property});
+  reduceStaticMemberAssignmentTarget(node, { object }) {
+    return new Shift.StaticMemberAssignmentTarget({ object, property: node.property });
   }
 
-  reduceStaticMemberExpression(node, {object}) {
-    return new Shift.StaticMemberExpression({object, property: node.property});
+  reduceStaticMemberExpression(node, { object }) {
+    return new Shift.StaticMemberExpression({ object, property: node.property });
   }
 
   reduceStaticPropertyName(node) {
-    return new Shift.StaticPropertyName({value: node.value});
+    return new Shift.StaticPropertyName({ value: node.value });
   }
 
   reduceSuper(node) {
     return new Shift.Super;
   }
 
-  reduceSwitchCase(node, {test, consequent}) {
-    return new Shift.SwitchCase({test, consequent});
+  reduceSwitchCase(node, { test, consequent }) {
+    return new Shift.SwitchCase({ test, consequent });
   }
 
-  reduceSwitchDefault(node, {consequent}) {
-    return new Shift.SwitchDefault({consequent});
+  reduceSwitchDefault(node, { consequent }) {
+    return new Shift.SwitchDefault({ consequent });
   }
 
-  reduceSwitchStatement(node, {discriminant, cases}) {
-    return new Shift.SwitchStatement({discriminant, cases});
+  reduceSwitchStatement(node, { discriminant, cases }) {
+    return new Shift.SwitchStatement({ discriminant, cases });
   }
 
-  reduceSwitchStatementWithDefault(node, {discriminant, preDefaultCases, defaultCase, postDefaultCases}) {
-    return new Shift.SwitchStatementWithDefault({discriminant, preDefaultCases, defaultCase, postDefaultCases});
+  reduceSwitchStatementWithDefault(node, { discriminant, preDefaultCases, defaultCase, postDefaultCases }) {
+    return new Shift.SwitchStatementWithDefault({ discriminant, preDefaultCases, defaultCase, postDefaultCases });
   }
 
   reduceTemplateElement(node) {
-    return new Shift.TemplateElement({rawValue: node.rawValue});
+    return new Shift.TemplateElement({ rawValue: node.rawValue });
   }
 
-  reduceTemplateExpression(node, {tag, elements}) {
-    return new Shift.TemplateExpression({tag, elements});
+  reduceTemplateExpression(node, { tag, elements }) {
+    return new Shift.TemplateExpression({ tag, elements });
   }
 
   reduceThisExpression(node) {
     return new Shift.ThisExpression;
   }
 
-  reduceThrowStatement(node, {expression}) {
-    return new Shift.ThrowStatement({expression});
+  reduceThrowStatement(node, { expression }) {
+    return new Shift.ThrowStatement({ expression });
   }
 
-  reduceTryCatchStatement(node, {body, catchClause}) {
-    return new Shift.TryCatchStatement({body, catchClause});
+  reduceTryCatchStatement(node, { body, catchClause }) {
+    return new Shift.TryCatchStatement({ body, catchClause });
   }
 
-  reduceTryFinallyStatement(node, {body, catchClause, finalizer}) {
-    return new Shift.TryFinallyStatement({body, catchClause, finalizer});
+  reduceTryFinallyStatement(node, { body, catchClause, finalizer }) {
+    return new Shift.TryFinallyStatement({ body, catchClause, finalizer });
   }
 
-  reduceUnaryExpression(node, {operand}) {
-    return new Shift.UnaryExpression({operator: node.operator, operand});
+  reduceUnaryExpression(node, { operand }) {
+    return new Shift.UnaryExpression({ operator: node.operator, operand });
   }
 
-  reduceUpdateExpression(node, {operand}) {
-    return new Shift.UpdateExpression({isPrefix: node.isPrefix, operator: node.operator, operand});
+  reduceUpdateExpression(node, { operand }) {
+    return new Shift.UpdateExpression({ isPrefix: node.isPrefix, operator: node.operator, operand });
   }
 
-  reduceVariableDeclaration(node, {declarators}) {
-    return new Shift.VariableDeclaration({kind: node.kind, declarators});
+  reduceVariableDeclaration(node, { declarators }) {
+    return new Shift.VariableDeclaration({ kind: node.kind, declarators });
   }
 
-  reduceVariableDeclarationStatement(node, {declaration}) {
-    return new Shift.VariableDeclarationStatement({declaration});
+  reduceVariableDeclarationStatement(node, { declaration }) {
+    return new Shift.VariableDeclarationStatement({ declaration });
   }
 
-  reduceVariableDeclarator(node, {binding, init}) {
-    return new Shift.VariableDeclarator({binding, init});
+  reduceVariableDeclarator(node, { binding, init }) {
+    return new Shift.VariableDeclarator({ binding, init });
   }
 
-  reduceWhileStatement(node, {test, body}) {
-    return new Shift.WhileStatement({test, body});
+  reduceWhileStatement(node, { test, body }) {
+    return new Shift.WhileStatement({ test, body });
   }
 
-  reduceWithStatement(node, {object, body}) {
-    return new Shift.WithStatement({object, body});
+  reduceWithStatement(node, { object, body }) {
+    return new Shift.WithStatement({ object, body });
   }
 
-  reduceYieldExpression(node, {expression}) {
-    return new Shift.YieldExpression({expression});
+  reduceYieldExpression(node, { expression }) {
+    return new Shift.YieldExpression({ expression });
   }
 
-  reduceYieldGeneratorExpression(node, {expression}) {
-    return new Shift.YieldGeneratorExpression({expression});
+  reduceYieldGeneratorExpression(node, { expression }) {
+    return new Shift.YieldGeneratorExpression({ expression });
   }
 }

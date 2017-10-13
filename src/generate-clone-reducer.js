@@ -14,17 +14,10 @@
  * limitations under the License.
  */
 
-"use strict";
+'use strict';
 
 let spec = require('shift-spec').default;
-const {isRestrictedWord, isReservedWordES6} = require('esutils').keyword;
-
-function sanitize(fieldName) {
-  if (isRestrictedWord(fieldName) || isReservedWordES6(fieldName)) {
-    return '_' + fieldName;
-  }
-  return fieldName;
-}
+const { isRestrictedWord, isReservedWordES6 } = require('esutils').keyword;
 
 function parameterize(fieldName) {
   if (isRestrictedWord(fieldName) || isReservedWordES6(fieldName)) {
@@ -45,7 +38,7 @@ function isStatefulType(type) {
       return isStatefulType(type.argument);
     default:
       return true;
-  } 
+  }
 }
 
 let content = `/**
@@ -71,13 +64,11 @@ export default class CloneReducer {`;
 function cloneField(f) {
   if (!isStatefulType(f.type)) {
     return `${f.name}: node.${f.name}`;
-  } else {
-    return parameterize(f.name);
   }
+  return parameterize(f.name);
 }
 
-for (let typeName in spec) {
-  let type = spec[typeName];
+for (let [typeName, type] of Object.entries(spec)) {
   let fields = type.fields.filter(f => f.name !== 'type');
   if (fields.length === 0) {
     content += `
@@ -87,10 +78,10 @@ for (let typeName in spec) {
 `;
   } else {
     let statefulFields = fields.filter(f => isStatefulType(f.type));
-    let param = statefulFields.length > 0 ? `, {${statefulFields.map(f => parameterize(f.name)).join(', ')}}` : '';
+    let param = statefulFields.length > 0 ? `, { ${statefulFields.map(f => parameterize(f.name)).join(', ')} }` : '';
     content += `
   reduce${typeName}(node${param}) {
-    return new Shift.${typeName}({${fields.map(cloneField).join(', ')}});
+    return new Shift.${typeName}({ ${fields.map(cloneField).join(', ')} });
   }
 `;
   }

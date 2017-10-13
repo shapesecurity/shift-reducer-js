@@ -16,8 +16,8 @@
 
 const assert = require('assert');
 
-const {LazyCloneReducer, default: reduce} = require('../');
-const {parseScript, parseModule} = require('shift-parser');
+const { LazyCloneReducer, default: reduce } = require('../');
+const { parseScript, parseModule } = require('shift-parser');
 
 const fs = require('fs');
 
@@ -42,7 +42,7 @@ suite('lazy-clone', () => {
 
     class IncrementReducer extends LazyCloneReducer {
       reduceLiteralNumericExpression(node) {
-        return {type: 'LiteralNumericExpression', value: node.value + 1};
+        return { type: 'LiteralNumericExpression', value: node.value + 1 };
       }
     }
 
