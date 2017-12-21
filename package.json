@@ -1,6 +1,6 @@
 {
   "name": "shift-reducer",
-  "version": "4.0.1",
+  "version": "4.1.0",
   "description": "reducer for the Shift AST format",
   "author": "Shape Security",
   "homepage": "https://github.com/shapesecurity/shift-reducer-js",
