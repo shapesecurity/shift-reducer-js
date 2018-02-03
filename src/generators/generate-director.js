@@ -71,15 +71,9 @@ for (let [typeName, type] of Object.entries(spec)) {
 
 content += `};
 
-
-export default function reduce(reducer, node) {
+export function reduce(reducer, node) {
   return director[node.type](reducer, node);
 }
-
-export { default as CloneReducer } from './clone-reducer';
-export { default as LazyCloneReducer } from './lazy-clone-reducer';
-export { default as MonoidalReducer } from './monoidal-reducer';
-
 `;
 
-require('fs').writeFile('gen/index.js', content, 'utf-8');
+require('fs').writeFile('gen/director.js', content, 'utf-8');
