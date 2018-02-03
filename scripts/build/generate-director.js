@@ -19,7 +19,8 @@
 const spec = require('shift-spec').default;
 const { isStatefulType } = require('../lib/utilities.js');
 
-let content = `/**
+function buildContent(isThunked) {
+  let content = `/**
  * Copyright 2016 Shape Security, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License")
@@ -37,43 +38,47 @@ let content = `/**
 
 const director = {`;
 
-function reduce(name, type) {
-  switch (type.typeName) {
-    case 'Maybe':
-      return `${name} && ${reduce(name, type.argument)}`;
-    case 'List':
-      return `${name}.map(v => ${reduce('v', type.argument)})`;
-    case 'Union':
-      return `this[${name}.type](reducer, ${name})`;
-    default:
-      return `this.${type.typeName}(reducer, ${name})`;
+  function reduce(name, type) {
+    switch (type.typeName) {
+      case 'Maybe':
+        return `${name} && ${reduce(name, type.argument)}`;
+      case 'List':
+        return `${name}.map(v => ${reduce('v', type.argument)})`;
+      case 'Union':
+        return `${isThunked ? '(() => ' : ''}this[${name}.type](reducer, ${name})${isThunked ? ')' : ''}`;
+      default:
+        return `${isThunked ? '(() => ' : ''}this.${type.typeName}(reducer, ${name})${isThunked ? ')' : ''}`;
+    }
   }
-}
 
-for (let [typeName, type] of Object.entries(spec)) {
-  let fields = type.fields.filter(f => f.name !== 'type' && isStatefulType(f.type));
-  if (fields.length === 0) {
-    content += `
+  for (let [typeName, type] of Object.entries(spec)) {
+    let fields = type.fields.filter(f => f.name !== 'type' && isStatefulType(f.type));
+    if (fields.length === 0) {
+      content += `
   ${typeName}(reducer, node) {
     return reducer.reduce${typeName}(node);
   },
 `;
 
-  } else {
-    content += `
+    } else {
+      content += `
   ${typeName}(reducer, node) {
     return reducer.reduce${typeName}(node, { ${fields.map(f => `${f.name}: ${reduce(`node.${f.name}`, f.type)}`).join(', ')} });
   },
 `;
 
+    }
   }
-}
 
-content += `};
+  content += `};
 
-export function reduce(reducer, node) {
+export function ${isThunked ? 'thunkedReduce' : 'reduce'}(reducer, node) {
   return director[node.type](reducer, node);
 }
 `;
 
-require('fs').writeFile('gen/director.js', content, 'utf-8');
+  return content;
+}
+
+require('fs').writeFile('gen/director.js', buildContent(false), 'utf-8');
+require('fs').writeFile('gen/thunked-director.js', buildContent(true), 'utf-8');

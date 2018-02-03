@@ -16,7 +16,7 @@
     "test": "mocha --compilers js:babel-register --inline-diffs --check-leaks --ui tdd --reporter dot test",
     "build": "mkdir -p gen dist && (for i in scripts/build/*; do node $i; done) && babel src gen --out-dir dist",
     "prepare": "rm -rf dist && npm update && npm run build",
-    "lint": "eslint src gen test"
+    "lint": "eslint src gen test examples"
   },
   "dependencies": {
     "shift-ast": "^4.0.0"

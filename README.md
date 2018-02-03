@@ -4,7 +4,7 @@ Shift Reducer
 
 ## About
 
-This module provides a reducer for a [Shift format](https://github.com/shapesecurity/shift-spec) AST.
+This module provides several reducers and related tooling for [Shift format](https://github.com/shapesecurity/shift-spec) ASTs.
 
 
 ## Status
