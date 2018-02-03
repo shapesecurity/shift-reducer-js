@@ -16,37 +16,8 @@
 
 'use strict';
 
-let spec = require('shift-spec').default;
-const { isRestrictedWord, isReservedWordES6 } = require('esutils').keyword;
-
-function sanitize(fieldName) {
-  if (isRestrictedWord(fieldName) || isReservedWordES6(fieldName)) {
-    return '_' + fieldName;
-  }
-  return fieldName;
-}
-
-function parameterize(fieldName) {
-  if (isRestrictedWord(fieldName) || isReservedWordES6(fieldName)) {
-    return fieldName + ': _' + fieldName;
-  }
-  return fieldName;
-}
-
-function isStatefulType(type) {
-  switch (type.typeName) {
-    case 'Enum':
-    case 'String':
-    case 'Number':
-    case 'Boolean':
-      return false;
-    case 'Maybe':
-    case 'List':
-      return isStatefulType(type.argument);
-    default:
-      return true;
-  }
-}
+const spec = require('shift-spec').default;
+const { sanitize, parameterize, isStatefulType } = require('../utilities.js');
 
 let content = `/**
  * Copyright 2016 Shape Security, Inc.

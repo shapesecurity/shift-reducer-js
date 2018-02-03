@@ -14,7 +14,7 @@
   ],
   "scripts": {
     "test": "mocha --compilers js:babel-register --inline-diffs --check-leaks --ui tdd --reporter dot test",
-    "build": "mkdir -p gen dist && node src/generate-clone-reducer.js && node src/generate-lazy-clone-reducer.js && node src/generate-monoidal-reducer.js && node src/generate-index.js && babel --out-dir dist gen",
+    "build": "mkdir -p gen dist && (for i in src/generators/*; do node $i; done) && babel --out-dir dist gen",
     "prepare": "rm -rf dist && npm update && npm run build",
     "lint": "eslint src gen test"
   },

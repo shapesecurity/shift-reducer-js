@@ -16,30 +16,8 @@
 
 'use strict';
 
-let spec = require('shift-spec').default;
-const { isRestrictedWord, isReservedWordES6 } = require('esutils').keyword;
-
-function parameterize(fieldName) {
-  if (isRestrictedWord(fieldName) || isReservedWordES6(fieldName)) {
-    return fieldName + ': _' + fieldName;
-  }
-  return fieldName;
-}
-
-function isStatefulType(type) {
-  switch (type.typeName) {
-    case 'Enum':
-    case 'String':
-    case 'Number':
-    case 'Boolean':
-      return false;
-    case 'Maybe':
-    case 'List':
-      return isStatefulType(type.argument);
-    default:
-      return true;
-  }
-}
+const spec = require('shift-spec').default;
+const { isStatefulType } = require('../utilities.js');
 
 let content = `/**
  * Copyright 2016 Shape Security, Inc.
@@ -57,37 +35,51 @@ let content = `/**
  * limitations under the License.
  */
 
-import * as Shift from 'shift-ast';
+const director = {`;
 
-export default class CloneReducer {`;
-
-function cloneField(f) {
-  if (!isStatefulType(f.type)) {
-    return `${f.name}: node.${f.name}`;
+function reduce(name, type) {
+  switch (type.typeName) {
+    case 'Maybe':
+      return `${name} && ${reduce(name, type.argument)}`;
+    case 'List':
+      return `${name}.map(v => ${reduce('v', type.argument)})`;
+    case 'Union':
+      return `this[${name}.type](reducer, ${name})`;
+    default:
+      return `this.${type.typeName}(reducer, ${name})`;
   }
-  return parameterize(f.name);
 }
 
 for (let [typeName, type] of Object.entries(spec)) {
-  let fields = type.fields.filter(f => f.name !== 'type');
+  let fields = type.fields.filter(f => f.name !== 'type' && isStatefulType(f.type));
   if (fields.length === 0) {
     content += `
-  reduce${typeName}(node) {
-    return new Shift.${typeName};
-  }
+  ${typeName}(reducer, node) {
+    return reducer.reduce${typeName}(node);
+  },
 `;
+
   } else {
-    let statefulFields = fields.filter(f => isStatefulType(f.type));
-    let param = statefulFields.length > 0 ? `, { ${statefulFields.map(f => parameterize(f.name)).join(', ')} }` : '';
     content += `
-  reduce${typeName}(node${param}) {
-    return new Shift.${typeName}({ ${fields.map(cloneField).join(', ')} });
-  }
+  ${typeName}(reducer, node) {
+    return reducer.reduce${typeName}(node, { ${fields.map(f => `${f.name}: ${reduce(`node.${f.name}`, f.type)}`).join(', ')} });
+  },
 `;
+
   }
 }
 
-content += `}
+content += `};
+
+
+export default function reduce(reducer, node) {
+  return director[node.type](reducer, node);
+}
+
+export { default as CloneReducer } from './clone-reducer';
+export { default as LazyCloneReducer } from './lazy-clone-reducer';
+export { default as MonoidalReducer } from './monoidal-reducer';
+
 `;
 
-require('fs').writeFile('gen/clone-reducer.js', content, 'utf-8');
+require('fs').writeFile('gen/index.js', content, 'utf-8');
