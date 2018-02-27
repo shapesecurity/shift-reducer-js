@@ -17,7 +17,7 @@
 'use strict';
 
 const spec = require('shift-spec').default;
-const { parameterize, isStatefulType } = require('../utilities.js');
+const { parameterize, isStatefulType } = require('../lib/utilities.js');
 
 let content = `/**
  * Copyright 2016 Shape Security, Inc.

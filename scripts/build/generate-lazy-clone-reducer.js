@@ -17,7 +17,7 @@
 'use strict';
 
 const spec = require('shift-spec').default;
-const { sanitize, parameterize, isStatefulType, isNodeOrUnionOfNodes } = require('../utilities.js');
+const { sanitize, parameterize, isStatefulType, isNodeOrUnionOfNodes } = require('../lib/utilities.js');
 
 function generateEquals(type, a, b) {
   switch (type.typeName) {
