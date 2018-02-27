@@ -17,21 +17,7 @@
 'use strict';
 
 const spec = require('shift-spec').default;
-
-function isStatefulType(type) {
-  switch (type.typeName) {
-    case 'Enum':
-    case 'String':
-    case 'Number':
-    case 'Boolean':
-      return false;
-    case 'Maybe':
-    case 'List':
-      return isStatefulType(type.argument);
-    default:
-      return true;
-  }
-}
+const { isStatefulType } = require('../lib/utilities.js');
 
 let content = `/**
  * Copyright 2016 Shape Security, Inc.
@@ -85,15 +71,9 @@ for (let [typeName, type] of Object.entries(spec)) {
 
 content += `};
 
-
-export default function reduce(reducer, node) {
+export function reduce(reducer, node) {
   return director[node.type](reducer, node);
 }
-
-export { default as CloneReducer } from './clone-reducer';
-export { default as LazyCloneReducer } from './lazy-clone-reducer';
-export { default as MonoidalReducer } from './monoidal-reducer';
-
 `;
 
-require('fs').writeFile('gen/index.js', content, 'utf-8');
+require('fs').writeFile('gen/director.js', content, 'utf-8');
