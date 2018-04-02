@@ -23,8 +23,8 @@ export default class MonoidalReducer {
     this.append = (a, b) => concat.call(a, b);
   }
 
-  fold(list) {
-    return list.reduce((memo, x) => this.append(memo, x), this.identity);
+  fold(list, a) {
+    return list.reduce((memo, x) => this.append(memo, x), a == null ? this.identity : a);
   }
 
   reduceArrayAssignmentTarget(node, { elements, rest }) {
