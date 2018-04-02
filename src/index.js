@@ -22,3 +22,4 @@ export { default as CloneReducer } from './clone-reducer.js';
 export { default as LazyCloneReducer } from './lazy-clone-reducer.js';
 export { default as MonoidalReducer } from './monoidal-reducer.js';
 export { default as ThunkedMonoidalReducer } from './thunked-monoidal-reducer.js';
+export { default as wrap } from './wrap.js';
