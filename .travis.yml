@@ -5,6 +5,7 @@ before_install:
 script:
   - curl https://raw.githubusercontent.com/shapesecurity/CLA/master/cla-travis.sh | bash
   - npm run build
+  - if git update-index -q --refresh && ! git diff-index --quiet HEAD; then echo repo is dirty; exit 1; fi
   - nvm install $TRAVIS_NODE_VERSION
   - npm test
   - npm run lint
