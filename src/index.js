@@ -23,3 +23,4 @@ export { default as LazyCloneReducer } from './lazy-clone-reducer.js';
 export { default as MonoidalReducer } from './monoidal-reducer.js';
 export { default as ThunkedMonoidalReducer } from './thunked-monoidal-reducer.js';
 export { default as adapt } from './adapt.js';
+export { PlusReducer, ThunkedPlusReducer, ConcatReducer, ThunkedConcatReducer, AndReducer, ThunkedAndReducer, OrReducer, ThunkedOrReducer } from './reducers.js';
