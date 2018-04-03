@@ -45,4 +45,4 @@ ${Object.keys(spec).map(typeName => `
 });
 `;
 
-require('fs').writeFile('gen/wrap.js', content, 'utf-8');
+require('fs').writeFile('gen/adapt.js', content, 'utf-8');

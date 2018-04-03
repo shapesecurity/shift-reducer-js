@@ -18,11 +18,11 @@
 
 const assert = require('assert');
 
-const { reduce, MonoidalReducer, wrap } = require('../');
+const { reduce, MonoidalReducer, adapt } = require('../');
 const { parseModule } = require('shift-parser');
 
-suite('wrap', () => {
-  test('wrap wraps', () => {
+suite('adapt', () => {
+  test('adapt adapts', () => {
     const plusReducer = new MonoidalReducer({
       empty() {
         return 0;
@@ -31,12 +31,12 @@ suite('wrap', () => {
         return this + other;
       },
     });
-    const countNodes = wrap(d => d + 1, plusReducer);
+    const countNodes = adapt(d => d + 1, plusReducer);
 
     assert.equal(reduce(countNodes, parseModule('a + b')), 5);
   });
 
-  test('wrap has node available to it', () => {
+  test('adapt has node available to it', () => {
     const concatReducer = new MonoidalReducer({
       empty() {
         return [];
@@ -45,7 +45,7 @@ suite('wrap', () => {
         return this.concat(other);
       },
     });
-    const listNodes = wrap((d, node) => d.concat([node.type]), concatReducer);
+    const listNodes = adapt((d, node) => d.concat([node.type]), concatReducer);
 
     assert.deepStrictEqual(reduce(listNodes, parseModule('a + b')), [
       'IdentifierExpression',
