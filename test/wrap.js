@@ -31,7 +31,7 @@ suite('wrap', () => {
         return this + other;
       },
     });
-    const countNodes = wrap(plusReducer, d => d + 1);
+    const countNodes = wrap(d => d + 1, plusReducer);
 
     assert.equal(reduce(countNodes, parseModule('a + b')), 5);
   });
@@ -45,7 +45,7 @@ suite('wrap', () => {
         return this.concat(other);
       },
     });
-    const listNodes = wrap(concatReducer, (d, node) => d.concat([node.type]));
+    const listNodes = wrap((d, node) => d.concat([node.type]), concatReducer);
 
     assert.deepStrictEqual(reduce(listNodes, parseModule('a + b')), [
       'IdentifierExpression',

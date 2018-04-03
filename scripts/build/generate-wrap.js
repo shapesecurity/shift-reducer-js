@@ -36,7 +36,7 @@ let content = `/**
 
 import * as Shift from 'shift-ast';
 
-export default (reducer, fn) => ({
+export default (fn, reducer) => ({
   __proto__: reducer,
 ${Object.keys(spec).map(typeName => `
   reduce${typeName}(node, data) {
