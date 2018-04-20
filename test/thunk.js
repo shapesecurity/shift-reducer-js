@@ -16,7 +16,7 @@
 
 const assert = require('assert');
 
-const { default: reduce, thunkedReduce, MonoidalReducer, ThunkedMonoidalReducer, LazyCloneReducer, thunkify, memoize } = require('../');
+const { default: reduce, thunkedReduce, MonoidalReducer, ThunkedMonoidalReducer, LazyCloneReducer, thunkify, thunkifyClass, memoize } = require('../');
 const { parseScript } = require('shift-parser');
 const spec = require('shift-spec').default;
 
@@ -213,30 +213,43 @@ suite('memoize', () => {
         };
       }
     }
-    const reducer = memoize(thunkify(new IncrementingReducer));
+    const thunkifiedFromObject = memoize(thunkify(new IncrementingReducer));
 
-    const effects = [];
-    const reduced = thunkedReduce(instrument(reducer, effects), sampleTree);
-    assert.strictEqual(reduced.statements[2].expression.value, sampleTree.statements[2].expression.value + 1);
-    assert.deepStrictEqual(effects, preorder);
 
-    const effects2 = [];
-    const reduced2 = thunkedReduce(instrument(reducer, effects2), sampleTree);
-    assert.strictEqual(reduced2, reduced); // Note: ===, not just equivalent
-    assert.deepStrictEqual(effects2, [
-      'Script',
-    ]);
+    class ThunkedIncrementingReducer extends thunkifyClass(LazyCloneReducer) {
+      reduceLiteralNumericExpression(node) {
+        return {
+          type: 'LiteralNumericExpression',
+          value: node.value + 1,
+        };
+      }
+    }
+    const thunkifiedFromClass = memoize(new ThunkedIncrementingReducer);
 
-    const effects3 = [];
-    const reduced3 = thunkedReduce(instrument(reducer, effects3), reduced);
-    assert.strictEqual(reduced3.statements[2].expression.value, sampleTree.statements[2].expression.value + 2);
-    assert.deepStrictEqual(effects3, [
-      'Script',
-      'Directive',
-      'ExpressionStatement', // Note: the LiteralNullExpression and the Block are not revisited
-      'BlockStatement',
-      'ExpressionStatement',
-      'LiteralNumericExpression',
-    ]);
+    [thunkifiedFromObject, thunkifiedFromClass].forEach(reducer => {
+      const effects = [];
+      const reduced = thunkedReduce(instrument(reducer, effects), sampleTree);
+      assert.strictEqual(reduced.statements[2].expression.value, sampleTree.statements[2].expression.value + 1);
+      assert.deepStrictEqual(effects, preorder);
+
+      const effects2 = [];
+      const reduced2 = thunkedReduce(instrument(reducer, effects2), sampleTree);
+      assert.strictEqual(reduced2, reduced); // Note: ===, not just equivalent
+      assert.deepStrictEqual(effects2, [
+        'Script',
+      ]);
+
+      const effects3 = [];
+      const reduced3 = thunkedReduce(instrument(reducer, effects3), reduced);
+      assert.strictEqual(reduced3.statements[2].expression.value, sampleTree.statements[2].expression.value + 2);
+      assert.deepStrictEqual(effects3, [
+        'Script',
+        'Directive',
+        'ExpressionStatement', // Note: the LiteralNullExpression and the Block are not revisited
+        'BlockStatement',
+        'ExpressionStatement',
+        'LiteralNumericExpression',
+      ]);
+    });
   });
 });
