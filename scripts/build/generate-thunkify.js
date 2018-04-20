@@ -33,31 +33,33 @@ function force({ name, type }) {
   }
 }
 
+[true, false].forEach(isClass => {
+  let content = `${makeHeader(__filename)}
+export default function thunkify${isClass ? 'Class' : ''}(reducer${isClass ? 'Class' : ''}) {
+  return ${isClass ? 'class extends reducerClass ' : ''}{`;
 
-let content = `${makeHeader(__filename)}
-export default function thunkify(reducer) {
-  return {`;
-
-for (let [typeName, type] of Object.entries(spec)) {
-  let fields = type.fields.filter(f => f.name !== 'type');
-  let statefulFields = fields.filter(f => isStatefulType(f.type));
-  let param = statefulFields.length > 0 ? `, { ${statefulFields.map(f => parameterize(f.name)).join(', ')} }` : '';
-  content += `
+  for (let [typeName, type] of Object.entries(spec)) {
+    let fields = type.fields.filter(f => f.name !== 'type');
+    let statefulFields = fields.filter(f => isStatefulType(f.type));
+    let param = statefulFields.length > 0 ? `, { ${statefulFields.map(f => parameterize(f.name)).join(', ')} }` : '';
+    let base = isClass ? 'super' : 'reducer';
+    content += `
     reduce${typeName}(node${param}) {`;
-  if (statefulFields.length === 0) {
+    if (statefulFields.length === 0) {
+      content += `
+      return ${base}.reduce${typeName}(node);`;
+    } else {
+      content += `
+      return ${base}.reduce${typeName}(node, { ${statefulFields.map(f => sanitize(f.name) + ': ' + force(f)).join(', ')} });`;
+    }
     content += `
-      return reducer.reduce${typeName}(node);`;
-  } else {
-    content += `
-      return reducer.reduce${typeName}(node, { ${statefulFields.map(f => sanitize(f.name) + ': ' + force(f)).join(', ')} });`;
+    }${isClass ? '' : ','}
+`;
   }
-  content += `
-    },
-`;
-}
 
-content += `  };
+  content += `  };
 }
 `;
 
-require('fs').writeFile('gen/thunkify.js', content, 'utf-8', ()=>{});
+  require('fs').writeFile(`gen/thunkify${isClass ? '-class' : ''}.js`, content, 'utf-8', ()=>{});
+});

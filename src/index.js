@@ -17,6 +17,7 @@
 export { reduce, reduce as default } from './director.js';
 export { thunkedReduce } from './thunked-director.js';
 export { default as thunkify } from './thunkify.js';
+export { default as thunkifyClass } from './thunkify-class.js';
 export { default as memoize } from './memoize.js';
 export { default as CloneReducer } from './clone-reducer.js';
 export { default as LazyCloneReducer } from './lazy-clone-reducer.js';
