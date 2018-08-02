@@ -81,4 +81,4 @@ export default class MonoidalReducer {
 
   return content;
 }
-require('fs').writeFile('gen/monoidal-reducer.js', buildContent(), 'utf-8');
+require('fs').writeFileSync('gen/monoidal-reducer.js', buildContent(), 'utf-8');

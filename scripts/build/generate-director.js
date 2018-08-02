@@ -65,5 +65,5 @@ export function ${isThunked ? 'thunkedReduce' : 'reduce'}(reducer, node) {
   return content;
 }
 
-require('fs').writeFile('gen/director.js', buildContent(false), 'utf-8');
-require('fs').writeFile('gen/thunked-director.js', buildContent(true), 'utf-8');
+require('fs').writeFileSync('gen/director.js', buildContent(false), 'utf-8');
+require('fs').writeFileSync('gen/thunked-director.js', buildContent(true), 'utf-8');

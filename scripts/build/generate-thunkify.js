@@ -61,5 +61,5 @@ export default function thunkify${isClass ? 'Class' : ''}(reducer${isClass ? 'Cl
 }
 `;
 
-  require('fs').writeFile(`gen/thunkify${isClass ? '-class' : ''}.js`, content, 'utf-8', ()=>{});
+  require('fs').writeFileSync(`gen/thunkify${isClass ? '-class' : ''}.js`, content, 'utf-8');
 });
