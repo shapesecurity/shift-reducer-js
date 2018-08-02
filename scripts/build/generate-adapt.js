@@ -31,4 +31,4 @@ ${Object.keys(spec).map(typeName => `
 });
 `;
 
-require('fs').writeFile('gen/adapt.js', content, 'utf-8');
+require('fs').writeFileSync('gen/adapt.js', content, 'utf-8');

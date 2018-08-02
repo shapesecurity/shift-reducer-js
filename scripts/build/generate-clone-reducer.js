@@ -53,4 +53,4 @@ for (let [typeName, type] of Object.entries(spec)) {
 content += `}
 `;
 
-require('fs').writeFile('gen/clone-reducer.js', content, 'utf-8');
+require('fs').writeFileSync('gen/clone-reducer.js', content, 'utf-8');

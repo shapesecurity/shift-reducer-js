@@ -46,4 +46,4 @@ content += `  };
 }
 `;
 
-require('fs').writeFile('gen/memoize.js', content, 'utf-8', ()=>{});
+require('fs').writeFileSync('gen/memoize.js', content, 'utf-8');
