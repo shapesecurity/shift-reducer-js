@@ -86,7 +86,7 @@ export default function thunkifyClass(reducerClass) {
     }
 
     reduceCallExpression(node, { callee, arguments: _arguments }) {
-      return super.reduceCallExpression(node, { callee: callee(), _arguments: _arguments.map(n => n()) });
+      return super.reduceCallExpression(node, { callee: callee(), arguments: _arguments.map(n => n()) });
     }
 
     reduceCatchClause(node, { binding, body }) {
@@ -94,7 +94,7 @@ export default function thunkifyClass(reducerClass) {
     }
 
     reduceClassDeclaration(node, { name, super: _super, elements }) {
-      return super.reduceClassDeclaration(node, { name: name(), _super: _super == null ? null : _super(), elements: elements.map(n => n()) });
+      return super.reduceClassDeclaration(node, { name: name(), super: _super == null ? null : _super(), elements: elements.map(n => n()) });
     }
 
     reduceClassElement(node, { method }) {
@@ -102,7 +102,7 @@ export default function thunkifyClass(reducerClass) {
     }
 
     reduceClassExpression(node, { name, super: _super, elements }) {
-      return super.reduceClassExpression(node, { name: name == null ? null : name(), _super: _super == null ? null : _super(), elements: elements.map(n => n()) });
+      return super.reduceClassExpression(node, { name: name == null ? null : name(), super: _super == null ? null : _super(), elements: elements.map(n => n()) });
     }
 
     reduceCompoundAssignmentExpression(node, { binding, expression }) {
@@ -270,7 +270,7 @@ export default function thunkifyClass(reducerClass) {
     }
 
     reduceNewExpression(node, { callee, arguments: _arguments }) {
-      return super.reduceNewExpression(node, { callee: callee(), _arguments: _arguments.map(n => n()) });
+      return super.reduceNewExpression(node, { callee: callee(), arguments: _arguments.map(n => n()) });
     }
 
     reduceNewTargetExpression(node) {
