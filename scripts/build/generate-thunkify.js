@@ -50,7 +50,7 @@ export default function thunkify${isClass ? 'Class' : ''}(reducer${isClass ? 'Cl
       return ${base}.reduce${typeName}(node);`;
     } else {
       content += `
-      return ${base}.reduce${typeName}(node, { ${statefulFields.map(f => sanitize(f.name) + ': ' + force(f)).join(', ')} });`;
+      return ${base}.reduce${typeName}(node, { ${statefulFields.map(f => f.name + ': ' + force(f)).join(', ')} });`;
     }
     content += `
     }${isClass ? '' : ','}

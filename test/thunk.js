@@ -41,6 +41,7 @@ const sampleTree = parseScript(`
     debugger;
   }
   0;
+  f(1);
 `);
 
 const postorder = [
@@ -51,6 +52,10 @@ const postorder = [
   'Block',
   'BlockStatement',
   'LiteralNumericExpression',
+  'ExpressionStatement',
+  'IdentifierExpression',
+  'LiteralNumericExpression',
+  'CallExpression',
   'ExpressionStatement',
   'Script',
 ];
@@ -64,6 +69,10 @@ const preorder = [
   'Block',
   'DebuggerStatement',
   'ExpressionStatement',
+  'LiteralNumericExpression',
+  'ExpressionStatement',
+  'CallExpression',
+  'IdentifierExpression',
   'LiteralNumericExpression',
 ];
 
@@ -199,6 +208,10 @@ suite('thunk', () => {
       'BlockStatement', // Note: no 'Block' or 'DebuggerStatement'
       'ExpressionStatement',
       'LiteralNumericExpression',
+      'ExpressionStatement',
+      'CallExpression',
+      'IdentifierExpression',
+      'LiteralNumericExpression',
     ]);
   });
 });
@@ -248,6 +261,10 @@ suite('memoize', () => {
         'ExpressionStatement', // Note: the LiteralNullExpression and the Block are not revisited
         'BlockStatement',
         'ExpressionStatement',
+        'LiteralNumericExpression',
+        'ExpressionStatement',
+        'CallExpression',
+        'IdentifierExpression',
         'LiteralNumericExpression',
       ]);
     });
