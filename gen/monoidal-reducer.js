@@ -19,30 +19,29 @@ import Shift from 'shift-ast';
 
 export default class MonoidalReducer {
   constructor(monoid) {
-    this.identity = monoid.empty();
+    let identity = monoid.empty();
+    this.identity = identity;
+    let concat;
     if (monoid.prototype && typeof monoid.prototype.concat === 'function') {
-      this.append = Function.prototype.call.bind(monoid.prototype.concat);
+      concat = Function.prototype.call.bind(monoid.prototype.concat);
     } else if (typeof monoid.concat === 'function') {
-      this.append = monoid.concat;
+      concat = monoid.concat;
     } else {
       throw new TypeError('Monoid must provide a `concat` method');
     }
-  }
-
-  fold(list, a) {
-    return list.reduce((memo, x) => this.append(memo, x), a == null ? this.identity : a);
+    this.append = (...args) => args.reduce(concat, identity);
   }
 
   reduceArrayAssignmentTarget(node, { elements, rest }) {
-    return this.append(this.fold(elements.filter(n => n != null)), rest == null ? this.identity : rest);
+    return this.append(...elements.filter(n => n != null), rest == null ? this.identity : rest);
   }
 
   reduceArrayBinding(node, { elements, rest }) {
-    return this.append(this.fold(elements.filter(n => n != null)), rest == null ? this.identity : rest);
+    return this.append(...elements.filter(n => n != null), rest == null ? this.identity : rest);
   }
 
   reduceArrayExpression(node, { elements }) {
-    return this.fold(elements.filter(n => n != null));
+    return this.append(...elements.filter(n => n != null));
   }
 
   reduceArrowExpression(node, { params, body }) {
@@ -90,7 +89,7 @@ export default class MonoidalReducer {
   }
 
   reduceBlock(node, { statements }) {
-    return this.fold(statements);
+    return this.append(...statements);
   }
 
   reduceBlockStatement(node, { block }) {
@@ -102,7 +101,7 @@ export default class MonoidalReducer {
   }
 
   reduceCallExpression(node, { callee, arguments: _arguments }) {
-    return this.append(callee, this.fold(_arguments));
+    return this.append(callee, ..._arguments);
   }
 
   reduceCatchClause(node, { binding, body }) {
@@ -110,7 +109,7 @@ export default class MonoidalReducer {
   }
 
   reduceClassDeclaration(node, { name, super: _super, elements }) {
-    return this.fold([name, _super == null ? this.identity : _super, this.fold(elements)]);
+    return this.append(name, _super == null ? this.identity : _super, ...elements);
   }
 
   reduceClassElement(node, { method }) {
@@ -118,7 +117,7 @@ export default class MonoidalReducer {
   }
 
   reduceClassExpression(node, { name, super: _super, elements }) {
-    return this.fold([name == null ? this.identity : name, _super == null ? this.identity : _super, this.fold(elements)]);
+    return this.append(name == null ? this.identity : name, _super == null ? this.identity : _super, ...elements);
   }
 
   reduceCompoundAssignmentExpression(node, { binding, expression }) {
@@ -138,7 +137,7 @@ export default class MonoidalReducer {
   }
 
   reduceConditionalExpression(node, { test, consequent, alternate }) {
-    return this.fold([test, consequent, alternate]);
+    return this.append(test, consequent, alternate);
   }
 
   reduceContinueStatement(node) {
@@ -178,7 +177,7 @@ export default class MonoidalReducer {
   }
 
   reduceExportFrom(node, { namedExports }) {
-    return this.fold(namedExports);
+    return this.append(...namedExports);
   }
 
   reduceExportFromSpecifier(node) {
@@ -190,7 +189,7 @@ export default class MonoidalReducer {
   }
 
   reduceExportLocals(node, { namedExports }) {
-    return this.fold(namedExports);
+    return this.append(...namedExports);
   }
 
   reduceExpressionStatement(node, { expression }) {
@@ -198,31 +197,31 @@ export default class MonoidalReducer {
   }
 
   reduceForInStatement(node, { left, right, body }) {
-    return this.fold([left, right, body]);
+    return this.append(left, right, body);
   }
 
   reduceForOfStatement(node, { left, right, body }) {
-    return this.fold([left, right, body]);
+    return this.append(left, right, body);
   }
 
   reduceForStatement(node, { init, test, update, body }) {
-    return this.fold([init == null ? this.identity : init, test == null ? this.identity : test, update == null ? this.identity : update, body]);
+    return this.append(init == null ? this.identity : init, test == null ? this.identity : test, update == null ? this.identity : update, body);
   }
 
   reduceFormalParameters(node, { items, rest }) {
-    return this.append(this.fold(items), rest == null ? this.identity : rest);
+    return this.append(...items, rest == null ? this.identity : rest);
   }
 
   reduceFunctionBody(node, { directives, statements }) {
-    return this.append(this.fold(directives), this.fold(statements));
+    return this.append(...directives, ...statements);
   }
 
   reduceFunctionDeclaration(node, { name, params, body }) {
-    return this.fold([name, params, body]);
+    return this.append(name, params, body);
   }
 
   reduceFunctionExpression(node, { name, params, body }) {
-    return this.fold([name == null ? this.identity : name, params, body]);
+    return this.append(name == null ? this.identity : name, params, body);
   }
 
   reduceGetter(node, { name, body }) {
@@ -234,11 +233,11 @@ export default class MonoidalReducer {
   }
 
   reduceIfStatement(node, { test, consequent, alternate }) {
-    return this.fold([test, consequent, alternate == null ? this.identity : alternate]);
+    return this.append(test, consequent, alternate == null ? this.identity : alternate);
   }
 
   reduceImport(node, { defaultBinding, namedImports }) {
-    return this.append(defaultBinding == null ? this.identity : defaultBinding, this.fold(namedImports));
+    return this.append(defaultBinding == null ? this.identity : defaultBinding, ...namedImports);
   }
 
   reduceImportNamespace(node, { defaultBinding, namespaceBinding }) {
@@ -278,15 +277,15 @@ export default class MonoidalReducer {
   }
 
   reduceMethod(node, { name, params, body }) {
-    return this.fold([name, params, body]);
+    return this.append(name, params, body);
   }
 
   reduceModule(node, { directives, items }) {
-    return this.append(this.fold(directives), this.fold(items));
+    return this.append(...directives, ...items);
   }
 
   reduceNewExpression(node, { callee, arguments: _arguments }) {
-    return this.append(callee, this.fold(_arguments));
+    return this.append(callee, ..._arguments);
   }
 
   reduceNewTargetExpression(node) {
@@ -294,15 +293,15 @@ export default class MonoidalReducer {
   }
 
   reduceObjectAssignmentTarget(node, { properties }) {
-    return this.fold(properties);
+    return this.append(...properties);
   }
 
   reduceObjectBinding(node, { properties }) {
-    return this.fold(properties);
+    return this.append(...properties);
   }
 
   reduceObjectExpression(node, { properties }) {
-    return this.fold(properties);
+    return this.append(...properties);
   }
 
   reduceReturnStatement(node, { expression }) {
@@ -310,11 +309,11 @@ export default class MonoidalReducer {
   }
 
   reduceScript(node, { directives, statements }) {
-    return this.append(this.fold(directives), this.fold(statements));
+    return this.append(...directives, ...statements);
   }
 
   reduceSetter(node, { name, param, body }) {
-    return this.fold([name, param, body]);
+    return this.append(name, param, body);
   }
 
   reduceShorthandProperty(node, { name }) {
@@ -342,19 +341,19 @@ export default class MonoidalReducer {
   }
 
   reduceSwitchCase(node, { test, consequent }) {
-    return this.append(test, this.fold(consequent));
+    return this.append(test, ...consequent);
   }
 
   reduceSwitchDefault(node, { consequent }) {
-    return this.fold(consequent);
+    return this.append(...consequent);
   }
 
   reduceSwitchStatement(node, { discriminant, cases }) {
-    return this.append(discriminant, this.fold(cases));
+    return this.append(discriminant, ...cases);
   }
 
   reduceSwitchStatementWithDefault(node, { discriminant, preDefaultCases, defaultCase, postDefaultCases }) {
-    return this.fold([discriminant, this.fold(preDefaultCases), defaultCase, this.fold(postDefaultCases)]);
+    return this.append(discriminant, ...preDefaultCases, defaultCase, ...postDefaultCases);
   }
 
   reduceTemplateElement(node) {
@@ -362,7 +361,7 @@ export default class MonoidalReducer {
   }
 
   reduceTemplateExpression(node, { tag, elements }) {
-    return this.append(tag == null ? this.identity : tag, this.fold(elements));
+    return this.append(tag == null ? this.identity : tag, ...elements);
   }
 
   reduceThisExpression(node) {
@@ -378,7 +377,7 @@ export default class MonoidalReducer {
   }
 
   reduceTryFinallyStatement(node, { body, catchClause, finalizer }) {
-    return this.fold([body, catchClause == null ? this.identity : catchClause, finalizer]);
+    return this.append(body, catchClause == null ? this.identity : catchClause, finalizer);
   }
 
   reduceUnaryExpression(node, { operand }) {
@@ -390,7 +389,7 @@ export default class MonoidalReducer {
   }
 
   reduceVariableDeclaration(node, { declarators }) {
-    return this.fold(declarators);
+    return this.append(...declarators);
   }
 
   reduceVariableDeclarationStatement(node, { declaration }) {
