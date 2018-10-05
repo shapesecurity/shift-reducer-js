@@ -22,23 +22,28 @@ export default class MonoidalReducer {
     let identity = monoid.empty();
     this.identity = identity;
 
-    let combine;
-    let combineThunked = monoid.prototype && monoid.prototype.concatThunk || monoid.concatThunk;
-    if (typeof combineThunked === 'function') {
-      combine = (a, b) => combineThunked.call(a, b);
+    let concatThunk;
+    if (monoid.prototype && typeof monoid.prototype.concatThunk === 'function') {
+      concatThunk = Function.prototype.call.bind(monoid.prototype.concatThunk);
+    } else if (typeof monoid.concatThunk === 'function') {
+      concatThunk = monoid.concatThunk;
     } else {
-      let concat = monoid.prototype && monoid.prototype.concat || monoid.concat;
-      if (!(typeof concat === 'function')) {
-        throw new TypeError('Monoid must provide a `concat` method');
-      }
-      if (monoid.isAbsorbing) {
-        let isAbsorbing = monoid.isAbsorbing;
-        combine = (a, b) => isAbsorbing(a) ? a : concat.call(a, b());
+      let concat;
+      if (monoid.prototype && typeof monoid.prototype.concat === 'function') {
+        concat = Function.prototype.call.bind(monoid.prototype.concat);
+      } else if (typeof monoid.concat === 'function') {
+        concat = monoid.concat;
       } else {
-        combine = (a, b) => concat.call(a, b());
+        throw new TypeError('Monoid must provide a `concatThunk` or `concat` method');
+      }
+      if (typeof monoid.isAbsorbing === 'function') {
+        let isAbsorbing = monoid.isAbsorbing;
+        concatThunk = (a, b) => isAbsorbing(a) ? a : concat(a, b());
+      } else {
+        concatThunk = (a, b) => concat(a, b());
       }
     }
-    this.append = (...args) => args.reduce(combine, identity);
+    this.append = (...args) => args.reduce(concatThunk, identity);
   }
 
   reduceArrayAssignmentTarget(node, { elements, rest }) {

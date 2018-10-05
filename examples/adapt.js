@@ -15,18 +15,14 @@ function flatten(tree) {
 
 function findParents(tree) {
   let monoid = {
-    empty() {
-      return {
-        pairs: [],
-        children: [],
-      };
-    },
-    concat(other) {
-      return {
-        pairs: this.pairs.concat(other.pairs),
-        children: this.children.concat(other.children),
-      };
-    },
+    empty: () => ({
+      pairs: [],
+      children: [],
+    }),
+    concat: (a, b) => ({
+      pairs: a.pairs.concat(b.pairs),
+      children: a.children.concat(b.children),
+    }),
   };
   let reducer = adapt(
     ({ pairs, children }, node) => ({

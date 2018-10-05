@@ -20,45 +20,25 @@ import MonoidalReducer from './monoidal-reducer.js';
 import ThunkedMonoidalReducer from './thunked-monoidal-reducer.js';
 
 const PlusMonoid = {
-  empty() {
-    return 0;
-  },
-  concat(other) {
-    return this + other;
-  },
+  empty: () => 0,
+  concat: (a, b) => a + b,
 };
 
 const ConcatMonoid = {
-  empty() {
-    return [];
-  },
-  concat(other) {
-    return this.concat(other);
-  },
+  empty: () => [],
+  concat: (a, b) => a.concat(b),
 };
 
 const AndMonoid = {
-  empty() {
-    return true;
-  },
-  concat(other) {
-    return this && other;
-  },
-  concatThunk(otherThunk) {
-    return this && otherThunk();
-  },
+  empty: () => true,
+  concat: (a, b) => a && b,
+  concatThunk: (a, b) => a && b(),
 };
 
 const OrMonoid = {
-  empty() {
-    return false;
-  },
-  concat(other) {
-    return this || other;
-  },
-  concatThunk(otherThunk) {
-    return this || otherThunk();
-  },
+  empty: () => false,
+  concat: (a, b) => a || b,
+  concatThunk: (a, b) => a || b(),
 };
 
 

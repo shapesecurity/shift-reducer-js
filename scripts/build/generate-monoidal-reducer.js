@@ -41,8 +41,13 @@ import Shift from 'shift-ast';
 export default class MonoidalReducer {
   constructor(monoid) {
     this.identity = monoid.empty();
-    let concat = monoid.prototype && monoid.prototype.concat || monoid.concat;
-    this.append = (a, b) => concat.call(a, b);
+    if (monoid.prototype && typeof monoid.prototype.concat === 'function') {
+      this.append = Function.prototype.call.bind(monoid.prototype.concat);
+    } else if (typeof monoid.concat === 'function') {
+      this.append = monoid.concat;
+    } else {
+      throw new TypeError('Monoid must provide a \`concat\` method');
+    }
   }
 
   fold(list, a) {
