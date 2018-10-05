@@ -19,24 +19,25 @@
 const spec = require('shift-spec').default;
 const { makeHeader, sanitize, parameterize, isStatefulType } = require('../lib/utilities.js');
 
-function toVal({ name, type }) {
+
+function toVal(isThunked, { name, type }) {
   switch (type.typeName) {
     case 'Maybe':
-      return `${sanitize(name)} == null ? this.identity : ${sanitize(name)}`;
+      return `${sanitize(name)} == null ? this.identity : ${sanitize(name)}${isThunked ? '()' : ''}`;
     case 'List':
       if (type.argument.typeName === 'Maybe') {
         return `this.append(...${sanitize(name)}.filter(n => n != null))`;
       }
       return `this.append(...${sanitize(name)})`;
     default:
-      return sanitize(name);
+      return sanitize(name) + (isThunked ? '()' : '');
   }
 }
 
-function toArg({ name, type }) {
+function toArg(isThunked, { name, type }) {
   switch (type.typeName) {
     case 'Maybe':
-      return `${sanitize(name)} == null ? this.identity : ${sanitize(name)}`;
+      return `${sanitize(name)} == null ? ${isThunked ? '() => ' : ''}this.identity : ${sanitize(name)}`;
     case 'List':
       if (type.argument.typeName === 'Maybe') {
         return `...${sanitize(name)}.filter(n => n != null)`;
@@ -48,8 +49,7 @@ function toArg({ name, type }) {
 }
 
 
-function buildContent() {
-  let content = `${makeHeader(__filename)}
+const regularPrefix = `${makeHeader(__filename)}
 import Shift from 'shift-ast';
 
 export default class MonoidalReducer {
@@ -68,6 +68,42 @@ export default class MonoidalReducer {
   }
 `;
 
+const thunkedPrefix = `${makeHeader(__filename)}
+import Shift from 'shift-ast';
+
+export default class MonoidalReducer {
+  constructor(monoid) {
+    let identity = monoid.empty();
+    this.identity = identity;
+
+    let concatThunk;
+    if (monoid.prototype && typeof monoid.prototype.concatThunk === 'function') {
+      concatThunk = Function.prototype.call.bind(monoid.prototype.concatThunk);
+    } else if (typeof monoid.concatThunk === 'function') {
+      concatThunk = monoid.concatThunk;
+    } else {
+      let concat;
+      if (monoid.prototype && typeof monoid.prototype.concat === 'function') {
+        concat = Function.prototype.call.bind(monoid.prototype.concat);
+      } else if (typeof monoid.concat === 'function') {
+        concat = monoid.concat;
+      } else {
+        throw new TypeError('Monoid must provide a \`concatThunk\` or \`concat\` method');
+      }
+      if (typeof monoid.isAbsorbing === 'function') {
+        let isAbsorbing = monoid.isAbsorbing;
+        concatThunk = (a, b) => isAbsorbing(a) ? a : concat(a, b());
+      } else {
+        concatThunk = (a, b) => concat(a, b());
+      }
+    }
+    this.append = (...args) => args.reduce(concatThunk, identity);
+  }
+`;
+
+
+function buildContent(isThunked) {
+  let content = isThunked ? thunkedPrefix : regularPrefix;
   for (let typeName of Object.keys(spec)) {
     let type = spec[typeName];
     let fields = type.fields.filter(f => f.name !== 'type' && isStatefulType(f.type));
@@ -83,9 +119,9 @@ export default class MonoidalReducer {
   reduce${typeName}(node, ${param}) {
     `;
       if (fields.length === 1) {
-        content += `return ${toVal(fields[0])};`;
+        content += `return ${toVal(isThunked, fields[0])};`;
       } else {
-        content += `return this.append(${fields.map(toArg).join(', ')});`;
+        content += `return this.append(${fields.map(f => toArg(isThunked, f)).join(', ')});`;
       }
       content += `
   }
@@ -98,4 +134,5 @@ export default class MonoidalReducer {
 
   return content;
 }
-require('fs').writeFileSync('gen/monoidal-reducer.js', buildContent(), 'utf-8');
+require('fs').writeFileSync('gen/monoidal-reducer.js', buildContent(false), 'utf-8');
+require('fs').writeFileSync('gen/thunked-monoidal-reducer.js', buildContent(true), 'utf-8');
