@@ -50,7 +50,8 @@ export default class MonoidalReducer {
   }
 `;
 
-  for (let [typeName, type] of Object.entries(spec)) {
+  for (let typeName of Object.keys(spec)) {
+    let type = spec[typeName];
     let fields = type.fields.filter(f => f.name !== 'type' && isStatefulType(f.type));
     if (fields.length === 0) {
       content += `
