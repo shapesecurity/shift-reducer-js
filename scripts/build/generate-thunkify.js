@@ -38,7 +38,8 @@ function force({ name, type }) {
 export default function thunkify${isClass ? 'Class' : ''}(reducer${isClass ? 'Class' : ''}) {
   return ${isClass ? 'class extends reducerClass ' : ''}{`;
 
-  for (let [typeName, type] of Object.entries(spec)) {
+  for (let typeName of Object.keys(spec)) {
+    let type = spec[typeName];
     let fields = type.fields.filter(f => f.name !== 'type');
     let statefulFields = fields.filter(f => isStatefulType(f.type));
     let param = statefulFields.length > 0 ? `, { ${statefulFields.map(f => parameterize(f.name)).join(', ')} }` : '';
