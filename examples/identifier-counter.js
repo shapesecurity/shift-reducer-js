@@ -1,5 +1,5 @@
-import { parseScript } from 'shift-parser';
-import reduce, { MonoidalReducer } from '../';
+const { parseScript } = require('shift-parser');
+const { reduce, MonoidalReducer } = require('..');
 
 class IdentifierCounter extends MonoidalReducer {
   static count(program) {
@@ -7,6 +7,7 @@ class IdentifierCounter extends MonoidalReducer {
   }
 
   constructor() {
+    // The constructor can be omitted entirely by extending PlusReducer instead of MonoidalReducer
     class Sum {
       static empty() {
         return 0;

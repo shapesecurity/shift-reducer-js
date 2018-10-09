@@ -18,34 +18,18 @@
 
 const assert = require('assert');
 
-const { reduce, MonoidalReducer, adapt } = require('../');
+const { reduce, PlusReducer, ConcatReducer, adapt } = require('../');
 const { parseModule } = require('shift-parser');
 
 suite('adapt', () => {
   test('adapt adapts', () => {
-    const plusReducer = new MonoidalReducer({
-      empty() {
-        return 0;
-      },
-      concat(other) {
-        return this + other;
-      },
-    });
-    const countNodes = adapt(d => d + 1, plusReducer);
+    const countNodes = adapt(d => d + 1, new PlusReducer);
 
     assert.equal(reduce(countNodes, parseModule('a + b')), 5);
   });
 
   test('adapt has node available to it', () => {
-    const concatReducer = new MonoidalReducer({
-      empty() {
-        return [];
-      },
-      concat(other) {
-        return this.concat(other);
-      },
-    });
-    const listNodes = adapt((d, node) => d.concat([node.type]), concatReducer);
+    const listNodes = adapt((d, node) => d.concat([node.type]), new ConcatReducer);
 
     assert.deepStrictEqual(reduce(listNodes, parseModule('a + b')), [
       'IdentifierExpression',

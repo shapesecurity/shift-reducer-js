@@ -80,9 +80,7 @@ suite('thunk', () => {
   test('regular monoidal reducer visits in postorder', () => {
     const reducer = new MonoidalReducer({
       empty: () => false,
-      concat(a) {
-        return this || a;
-      },
+      concat: (a, b) => a || b,
     });
 
     const effects = [];
@@ -94,9 +92,7 @@ suite('thunk', () => {
   test('thunked monoidal reducer visits in preorder', () => {
     const reducer = new ThunkedMonoidalReducer({
       empty: () => false,
-      concatThunk(a) {
-        return this || a();
-      },
+      concatThunk: (a, b) => a || b(),
     });
 
     const effects = [];
@@ -110,9 +106,7 @@ suite('thunk', () => {
       constructor() {
         super({
           empty: () => false,
-          concatThunk(a) {
-            return this || a();
-          },
+          concatThunk: (a, b) => a || b(),
           concat() {
             throw new Error('not reached');
           },
@@ -136,12 +130,8 @@ suite('thunk', () => {
       constructor() {
         super({
           empty: () => false,
-          isAbsorbing(a) {
-            return a;
-          },
-          concat(a) {
-            return this || a;
-          },
+          isAbsorbing: a => a,
+          concat: (a, b) => a || b,
         });
       }
 
@@ -162,9 +152,7 @@ suite('thunk', () => {
       constructor() {
         super({
           empty: () => false,
-          concat(a) {
-            return this || a;
-          },
+          concat: (a, b) => a || b,
         });
       }
 
@@ -185,9 +173,7 @@ suite('thunk', () => {
       constructor() {
         super({
           empty: () => false,
-          concatThunk(a) {
-            return this || a();
-          },
+          concatThunk: (a, b) => a || b(),
         });
       }
 

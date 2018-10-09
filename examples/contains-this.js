@@ -14,20 +14,14 @@ class ContainsThisReducer extends ThunkedMonoidalReducer {
   constructor() {
     super({
       empty: () => false,
-      concatThunk(a) {
-        return this || a();
-      },
+      concatThunk: (a, b) => a || b(),
     });
 
     /* Equivalently:
     super({
       empty: () => false,
-      isAbsorbing(a) {
-        return a;
-      },
-      concat(a) {
-        return this || a;
-      },
+      isAbsorbing: a => a,
+      concat: (a, b) => a || b,
     });
     */
   }
