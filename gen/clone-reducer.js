@@ -31,7 +31,7 @@ export default class CloneReducer {
   }
 
   reduceArrowExpression(node, { params, body }) {
-    return new Shift.ArrowExpression({ params, body });
+    return new Shift.ArrowExpression({ isAsync: node.isAsync, params, body });
   }
 
   reduceAssignmentExpression(node, { binding, expression }) {
@@ -52,6 +52,10 @@ export default class CloneReducer {
 
   reduceAssignmentTargetWithDefault(node, { binding, init }) {
     return new Shift.AssignmentTargetWithDefault({ binding, init });
+  }
+
+  reduceAwaitExpression(node, { expression }) {
+    return new Shift.AwaitExpression({ expression });
   }
 
   reduceBinaryExpression(node, { left, right }) {
@@ -203,11 +207,11 @@ export default class CloneReducer {
   }
 
   reduceFunctionDeclaration(node, { name, params, body }) {
-    return new Shift.FunctionDeclaration({ isGenerator: node.isGenerator, name, params, body });
+    return new Shift.FunctionDeclaration({ isAsync: node.isAsync, isGenerator: node.isGenerator, name, params, body });
   }
 
   reduceFunctionExpression(node, { name, params, body }) {
-    return new Shift.FunctionExpression({ isGenerator: node.isGenerator, name, params, body });
+    return new Shift.FunctionExpression({ isAsync: node.isAsync, isGenerator: node.isGenerator, name, params, body });
   }
 
   reduceGetter(node, { name, body }) {
@@ -263,7 +267,7 @@ export default class CloneReducer {
   }
 
   reduceMethod(node, { name, params, body }) {
-    return new Shift.Method({ isGenerator: node.isGenerator, name, params, body });
+    return new Shift.Method({ isAsync: node.isAsync, isGenerator: node.isGenerator, name, params, body });
   }
 
   reduceModule(node, { directives, items }) {

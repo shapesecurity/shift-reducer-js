@@ -82,6 +82,10 @@ export default class MonoidalReducer {
     return this.append(binding, init);
   }
 
+  reduceAwaitExpression(node, { expression }) {
+    return expression();
+  }
+
   reduceBinaryExpression(node, { left, right }) {
     return this.append(left, right);
   }

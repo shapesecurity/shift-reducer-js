@@ -56,6 +56,10 @@ export default (fn, reducer) => ({
     return fn(super.reduceAssignmentTargetWithDefault(node, data), node);
   },
 
+  reduceAwaitExpression(node, data) {
+    return fn(super.reduceAwaitExpression(node, data), node);
+  },
+
   reduceBinaryExpression(node, data) {
     return fn(super.reduceBinaryExpression(node, data), node);
   },

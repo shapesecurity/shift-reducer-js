@@ -53,6 +53,10 @@ export default function thunkifyClass(reducerClass) {
       return super.reduceAssignmentTargetWithDefault(node, { binding: binding(), init: init() });
     }
 
+    reduceAwaitExpression(node, { expression }) {
+      return super.reduceAwaitExpression(node, { expression: expression() });
+    }
+
     reduceBinaryExpression(node, { left, right }) {
       return super.reduceBinaryExpression(node, { left: left(), right: right() });
     }

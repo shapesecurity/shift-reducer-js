@@ -53,6 +53,10 @@ export default function thunkify(reducer) {
       return reducer.reduceAssignmentTargetWithDefault(node, { binding: binding(), init: init() });
     },
 
+    reduceAwaitExpression(node, { expression }) {
+      return reducer.reduceAwaitExpression(node, { expression: expression() });
+    },
+
     reduceBinaryExpression(node, { left, right }) {
       return reducer.reduceBinaryExpression(node, { left: left(), right: right() });
     },

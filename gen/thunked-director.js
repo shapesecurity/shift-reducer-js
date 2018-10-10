@@ -52,6 +52,10 @@ const director = {
     return reducer.reduceAssignmentTargetWithDefault(node, { binding: (() => this[node.binding.type](reducer, node.binding)), init: (() => this[node.init.type](reducer, node.init)) });
   },
 
+  AwaitExpression(reducer, node) {
+    return reducer.reduceAwaitExpression(node, { expression: (() => this[node.expression.type](reducer, node.expression)) });
+  },
+
   BinaryExpression(reducer, node) {
     return reducer.reduceBinaryExpression(node, { left: (() => this[node.left.type](reducer, node.left)), right: (() => this[node.right.type](reducer, node.right)) });
   },

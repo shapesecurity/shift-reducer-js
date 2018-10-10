@@ -101,6 +101,15 @@ export default function memoize(reducer) {
       return res;
     },
 
+    reduceAwaitExpression(node, arg) {
+      if (cache.has(node)) {
+        return cache.get(node);
+      }
+      const res = reducer.reduceAwaitExpression(node, arg);
+      cache.set(node, res);
+      return res;
+    },
+
     reduceBinaryExpression(node, arg) {
       if (cache.has(node)) {
         return cache.get(node);
