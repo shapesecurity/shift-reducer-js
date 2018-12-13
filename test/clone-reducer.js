@@ -28,13 +28,12 @@ suite('clone', () => {
 
       tree = parseModule(fs.readFileSync(require.resolve('everything.js/es2015-module'), 'utf8'));
       clonedTree = reduce(new CloneReducer, tree);
-      // TODO: this is disabled until we can update this project's dev-dependency on the parser to support es2017.
-      // assert.deepEqual(tree, clonedTree);
+      assert.deepEqual(tree, clonedTree);
       assert.notEqual(tree, clonedTree);
 
       tree = parseScript(fs.readFileSync(require.resolve('everything.js/es2015-script'), 'utf8'));
       clonedTree = reduce(new CloneReducer, tree);
-      // assert.deepEqual(tree, clonedTree);
+      assert.deepEqual(tree, clonedTree);
       assert.notEqual(tree, clonedTree);
     });
   });
