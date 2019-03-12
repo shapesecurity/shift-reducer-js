@@ -200,6 +200,10 @@ export default class MonoidalReducer {
     return expression;
   }
 
+  reduceForAwaitStatement(node, { left, right, body }) {
+    return this.append(left, right, body);
+  }
+
   reduceForInStatement(node, { left, right, body }) {
     return this.append(left, right, body);
   }
@@ -296,12 +300,12 @@ export default class MonoidalReducer {
     return this.identity;
   }
 
-  reduceObjectAssignmentTarget(node, { properties }) {
-    return this.append(...properties);
+  reduceObjectAssignmentTarget(node, { properties, rest }) {
+    return this.append(...properties, rest == null ? this.identity : rest);
   }
 
-  reduceObjectBinding(node, { properties }) {
-    return this.append(...properties);
+  reduceObjectBinding(node, { properties, rest }) {
+    return this.append(...properties, rest == null ? this.identity : rest);
   }
 
   reduceObjectExpression(node, { properties }) {
@@ -325,6 +329,10 @@ export default class MonoidalReducer {
   }
 
   reduceSpreadElement(node, { expression }) {
+    return expression;
+  }
+
+  reduceSpreadProperty(node, { expression }) {
     return expression;
   }
 

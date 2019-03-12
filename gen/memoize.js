@@ -398,6 +398,15 @@ export default function memoize(reducer) {
       return res;
     },
 
+    reduceForAwaitStatement(node, arg) {
+      if (cache.has(node)) {
+        return cache.get(node);
+      }
+      const res = reducer.reduceForAwaitStatement(node, arg);
+      cache.set(node, res);
+      return res;
+    },
+
     reduceForInStatement(node, arg) {
       if (cache.has(node)) {
         return cache.get(node);
@@ -682,6 +691,15 @@ export default function memoize(reducer) {
         return cache.get(node);
       }
       const res = reducer.reduceSpreadElement(node, arg);
+      cache.set(node, res);
+      return res;
+    },
+
+    reduceSpreadProperty(node, arg) {
+      if (cache.has(node)) {
+        return cache.get(node);
+      }
+      const res = reducer.reduceSpreadProperty(node, arg);
       cache.set(node, res);
       return res;
     },

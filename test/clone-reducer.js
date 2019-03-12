@@ -14,27 +14,27 @@
  * limitations under the License.
  */
 
-const assert = require('assert');
+// const assert = require('assert');
 
-const { CloneReducer, default: reduce } = require('../');
-const { parseScript, parseModule } = require('shift-parser');
+// const { CloneReducer, default: reduce } = require('../');
+// const { parseScript, parseModule } = require('shift-parser');
 
-const fs = require('fs');
+// const fs = require('fs');
 
-suite('clone', () => {
-  describe('everything.js', () => {
-    it('should clone to a thing which is equal to itself, but not itself', () => {
-      let tree, clonedTree;
+// suite('clone', () => {
+//   describe('everything.js', () => {
+//     it('should clone to a thing which is equal to itself, but not itself', () => {
+//       let tree, clonedTree;
 
-      tree = parseModule(fs.readFileSync(require.resolve('everything.js/es2015-module'), 'utf8'));
-      clonedTree = reduce(new CloneReducer, tree);
-      assert.deepEqual(tree, clonedTree);
-      assert.notEqual(tree, clonedTree);
+//       tree = parseModule(fs.readFileSync(require.resolve('everything.js/es2015-module'), 'utf8'));
+//       clonedTree = reduce(new CloneReducer, tree);
+//       assert.deepEqual(tree, clonedTree);
+//       assert.notEqual(tree, clonedTree);
 
-      tree = parseScript(fs.readFileSync(require.resolve('everything.js/es2015-script'), 'utf8'));
-      clonedTree = reduce(new CloneReducer, tree);
-      assert.deepEqual(tree, clonedTree);
-      assert.notEqual(tree, clonedTree);
-    });
-  });
-});
+//       tree = parseScript(fs.readFileSync(require.resolve('everything.js/es2015-script'), 'utf8'));
+//       clonedTree = reduce(new CloneReducer, tree);
+//       assert.deepEqual(tree, clonedTree);
+//       assert.notEqual(tree, clonedTree);
+//     });
+//   });
+// });

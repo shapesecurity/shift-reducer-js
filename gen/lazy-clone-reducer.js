@@ -285,6 +285,13 @@ export default class LazyCloneReducer {
     return new Shift.ExpressionStatement({ expression });
   }
 
+  reduceForAwaitStatement(node, { left, right, body }) {
+    if (node.left === left && node.right === right && node.body === body) {
+      return node;
+    }
+    return new Shift.ForAwaitStatement({ left, right, body });
+  }
+
   reduceForInStatement(node, { left, right, body }) {
     if (node.left === left && node.right === right && node.body === body) {
       return node;
@@ -429,18 +436,18 @@ export default class LazyCloneReducer {
     return node;
   }
 
-  reduceObjectAssignmentTarget(node, { properties }) {
-    if ((node.properties.length === properties.length && node.properties.every((v, i) => v === properties[i]))) {
+  reduceObjectAssignmentTarget(node, { properties, rest }) {
+    if ((node.properties.length === properties.length && node.properties.every((v, i) => v === properties[i])) && node.rest === rest) {
       return node;
     }
-    return new Shift.ObjectAssignmentTarget({ properties });
+    return new Shift.ObjectAssignmentTarget({ properties, rest });
   }
 
-  reduceObjectBinding(node, { properties }) {
-    if ((node.properties.length === properties.length && node.properties.every((v, i) => v === properties[i]))) {
+  reduceObjectBinding(node, { properties, rest }) {
+    if ((node.properties.length === properties.length && node.properties.every((v, i) => v === properties[i])) && node.rest === rest) {
       return node;
     }
-    return new Shift.ObjectBinding({ properties });
+    return new Shift.ObjectBinding({ properties, rest });
   }
 
   reduceObjectExpression(node, { properties }) {
@@ -483,6 +490,13 @@ export default class LazyCloneReducer {
       return node;
     }
     return new Shift.SpreadElement({ expression });
+  }
+
+  reduceSpreadProperty(node, { expression }) {
+    if (node.expression === expression) {
+      return node;
+    }
+    return new Shift.SpreadProperty({ expression });
   }
 
   reduceStaticMemberAssignmentTarget(node, { object }) {

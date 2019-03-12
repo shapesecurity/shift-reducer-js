@@ -186,6 +186,10 @@ export default class CloneReducer {
     return new Shift.ExpressionStatement({ expression });
   }
 
+  reduceForAwaitStatement(node, { left, right, body }) {
+    return new Shift.ForAwaitStatement({ left, right, body });
+  }
+
   reduceForInStatement(node, { left, right, body }) {
     return new Shift.ForInStatement({ left, right, body });
   }
@@ -259,7 +263,7 @@ export default class CloneReducer {
   }
 
   reduceLiteralRegExpExpression(node) {
-    return new Shift.LiteralRegExpExpression({ pattern: node.pattern, global: node.global, ignoreCase: node.ignoreCase, multiLine: node.multiLine, sticky: node.sticky, unicode: node.unicode });
+    return new Shift.LiteralRegExpExpression({ pattern: node.pattern, global: node.global, ignoreCase: node.ignoreCase, multiLine: node.multiLine, dotAll: node.dotAll, unicode: node.unicode, sticky: node.sticky });
   }
 
   reduceLiteralStringExpression(node) {
@@ -282,12 +286,12 @@ export default class CloneReducer {
     return new Shift.NewTargetExpression;
   }
 
-  reduceObjectAssignmentTarget(node, { properties }) {
-    return new Shift.ObjectAssignmentTarget({ properties });
+  reduceObjectAssignmentTarget(node, { properties, rest }) {
+    return new Shift.ObjectAssignmentTarget({ properties, rest });
   }
 
-  reduceObjectBinding(node, { properties }) {
-    return new Shift.ObjectBinding({ properties });
+  reduceObjectBinding(node, { properties, rest }) {
+    return new Shift.ObjectBinding({ properties, rest });
   }
 
   reduceObjectExpression(node, { properties }) {
@@ -312,6 +316,10 @@ export default class CloneReducer {
 
   reduceSpreadElement(node, { expression }) {
     return new Shift.SpreadElement({ expression });
+  }
+
+  reduceSpreadProperty(node, { expression }) {
+    return new Shift.SpreadProperty({ expression });
   }
 
   reduceStaticMemberAssignmentTarget(node, { object }) {

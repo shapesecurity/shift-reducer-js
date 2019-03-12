@@ -184,6 +184,10 @@ const director = {
     return reducer.reduceExpressionStatement(node, { expression: (() => this[node.expression.type](reducer, node.expression)) });
   },
 
+  ForAwaitStatement(reducer, node) {
+    return reducer.reduceForAwaitStatement(node, { left: (() => this[node.left.type](reducer, node.left)), right: (() => this[node.right.type](reducer, node.right)), body: (() => this[node.body.type](reducer, node.body)) });
+  },
+
   ForInStatement(reducer, node) {
     return reducer.reduceForInStatement(node, { left: (() => this[node.left.type](reducer, node.left)), right: (() => this[node.right.type](reducer, node.right)), body: (() => this[node.body.type](reducer, node.body)) });
   },
@@ -281,11 +285,11 @@ const director = {
   },
 
   ObjectAssignmentTarget(reducer, node) {
-    return reducer.reduceObjectAssignmentTarget(node, { properties: node.properties.map(v => (() => this[v.type](reducer, v))) });
+    return reducer.reduceObjectAssignmentTarget(node, { properties: node.properties.map(v => (() => this[v.type](reducer, v))), rest: node.rest && (() => this[node.rest.type](reducer, node.rest)) });
   },
 
   ObjectBinding(reducer, node) {
-    return reducer.reduceObjectBinding(node, { properties: node.properties.map(v => (() => this[v.type](reducer, v))) });
+    return reducer.reduceObjectBinding(node, { properties: node.properties.map(v => (() => this[v.type](reducer, v))), rest: node.rest && (() => this[node.rest.type](reducer, node.rest)) });
   },
 
   ObjectExpression(reducer, node) {
@@ -310,6 +314,10 @@ const director = {
 
   SpreadElement(reducer, node) {
     return reducer.reduceSpreadElement(node, { expression: (() => this[node.expression.type](reducer, node.expression)) });
+  },
+
+  SpreadProperty(reducer, node) {
+    return reducer.reduceSpreadProperty(node, { expression: (() => this[node.expression.type](reducer, node.expression)) });
   },
 
   StaticMemberAssignmentTarget(reducer, node) {
