@@ -188,6 +188,10 @@ export default (fn, reducer) => ({
     return fn(super.reduceExpressionStatement(node, data), node);
   },
 
+  reduceForAwaitStatement(node, data) {
+    return fn(super.reduceForAwaitStatement(node, data), node);
+  },
+
   reduceForInStatement(node, data) {
     return fn(super.reduceForInStatement(node, data), node);
   },
@@ -314,6 +318,10 @@ export default (fn, reducer) => ({
 
   reduceSpreadElement(node, data) {
     return fn(super.reduceSpreadElement(node, data), node);
+  },
+
+  reduceSpreadProperty(node, data) {
+    return fn(super.reduceSpreadProperty(node, data), node);
   },
 
   reduceStaticMemberAssignmentTarget(node, data) {

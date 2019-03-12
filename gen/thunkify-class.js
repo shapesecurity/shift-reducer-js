@@ -185,6 +185,10 @@ export default function thunkifyClass(reducerClass) {
       return super.reduceExpressionStatement(node, { expression: expression() });
     }
 
+    reduceForAwaitStatement(node, { left, right, body }) {
+      return super.reduceForAwaitStatement(node, { left: left(), right: right(), body: body() });
+    }
+
     reduceForInStatement(node, { left, right, body }) {
       return super.reduceForInStatement(node, { left: left(), right: right(), body: body() });
     }
@@ -281,12 +285,12 @@ export default function thunkifyClass(reducerClass) {
       return super.reduceNewTargetExpression(node);
     }
 
-    reduceObjectAssignmentTarget(node, { properties }) {
-      return super.reduceObjectAssignmentTarget(node, { properties: properties.map(n => n()) });
+    reduceObjectAssignmentTarget(node, { properties, rest }) {
+      return super.reduceObjectAssignmentTarget(node, { properties: properties.map(n => n()), rest: rest == null ? null : rest() });
     }
 
-    reduceObjectBinding(node, { properties }) {
-      return super.reduceObjectBinding(node, { properties: properties.map(n => n()) });
+    reduceObjectBinding(node, { properties, rest }) {
+      return super.reduceObjectBinding(node, { properties: properties.map(n => n()), rest: rest == null ? null : rest() });
     }
 
     reduceObjectExpression(node, { properties }) {
@@ -311,6 +315,10 @@ export default function thunkifyClass(reducerClass) {
 
     reduceSpreadElement(node, { expression }) {
       return super.reduceSpreadElement(node, { expression: expression() });
+    }
+
+    reduceSpreadProperty(node, { expression }) {
+      return super.reduceSpreadProperty(node, { expression: expression() });
     }
 
     reduceStaticMemberAssignmentTarget(node, { object }) {
