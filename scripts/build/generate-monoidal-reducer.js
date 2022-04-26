@@ -16,7 +16,7 @@
 
 'use strict';
 
-const spec = require('shift-spec').default;
+const spec = require('shift-spec');
 const { makeHeader, sanitize, parameterize, isStatefulType } = require('../lib/utilities.js');
 
 
@@ -69,7 +69,7 @@ module.exports = class MonoidalReducer {
 `;
 
 const thunkedPrefix = `${makeHeader(__filename)}
-const Shift = require('shift-ast').default;
+const Shift = require('shift-ast');
 
 module.exports = class MonoidalReducer {
   constructor(monoid) {

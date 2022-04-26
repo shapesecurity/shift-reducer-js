@@ -18,7 +18,7 @@ const assert = require('assert');
 
 const { default: reduce, thunkedReduce, MonoidalReducer, ThunkedMonoidalReducer, LazyCloneReducer, thunkify, thunkifyClass, memoize } = require('../');
 const { parseScript } = require('shift-parser');
-const spec = require('shift-spec').default;
+const spec = require('shift-spec');
 
 
 function instrument(reducer, effects) {

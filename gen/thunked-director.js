@@ -93,7 +93,7 @@ const director = {
   },
 
   CatchClause(reducer, node) {
-    return reducer.reduceCatchClause(node, { binding: (() => this[node.binding.type](reducer, node.binding)), body: (() => this.Block(reducer, node.body)) });
+    return reducer.reduceCatchClause(node, { binding: node.binding && (() => this[node.binding.type](reducer, node.binding)), body: (() => this.Block(reducer, node.body)) });
   },
 
   ClassDeclaration(reducer, node) {
@@ -289,7 +289,7 @@ const director = {
   },
 
   ObjectBinding(reducer, node) {
-    return reducer.reduceObjectBinding(node, { properties: node.properties.map(v => (() => this[v.type](reducer, v))), rest: node.rest && (() => this[node.rest.type](reducer, node.rest)) });
+    return reducer.reduceObjectBinding(node, { properties: node.properties.map(v => (() => this[v.type](reducer, v))), rest: node.rest && (() => this.BindingIdentifier(reducer, node.rest)) });
   },
 
   ObjectExpression(reducer, node) {

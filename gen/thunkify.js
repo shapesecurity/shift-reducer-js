@@ -94,7 +94,7 @@ module.exports = function thunkify(reducer) {
     },
 
     reduceCatchClause(node, { binding, body }) {
-      return reducer.reduceCatchClause(node, { binding: binding(), body: body() });
+      return reducer.reduceCatchClause(node, { binding: binding == null ? null : binding(), body: body() });
     },
 
     reduceClassDeclaration(node, { name, super: _super, elements }) {

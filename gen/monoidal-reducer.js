@@ -109,7 +109,7 @@ module.exports = class MonoidalReducer {
   }
 
   reduceCatchClause(node, { binding, body }) {
-    return this.append(binding, body);
+    return this.append(binding == null ? this.identity : binding, body);
   }
 
   reduceClassDeclaration(node, { name, super: _super, elements }) {
