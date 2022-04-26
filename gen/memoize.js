@@ -15,9 +15,9 @@
  * limitations under the License.
  */
 
-import * as Shift from 'shift-ast';
+const Shift = require('shift-ast');
 
-export default function memoize(reducer) {
+module.exports = function memoize(reducer) {
   const cache = new WeakMap;
   return {
     reduceArrayAssignmentTarget(node, arg) {
@@ -911,4 +911,4 @@ export default function memoize(reducer) {
       return res;
     },
   };
-}
+};

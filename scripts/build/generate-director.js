@@ -58,9 +58,9 @@ const director = {`;
 
   content += `};
 
-export function ${isThunked ? 'thunkedReduce' : 'reduce'}(reducer, node) {
+module.exports = function ${isThunked ? 'thunkedReduce' : 'reduce'}(reducer, node) {
   return director[node.type](reducer, node);
-}
+};
 `;
 
   return content;

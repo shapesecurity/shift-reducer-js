@@ -15,9 +15,9 @@
  * limitations under the License.
  */
 
-import * as Shift from 'shift-ast';
+const Shift = require('shift-ast');
 
-export default (fn, reducer) => ({
+module.exports = (fn, reducer) => ({
   __proto__: reducer,
 
   reduceArrayAssignmentTarget(node, data) {

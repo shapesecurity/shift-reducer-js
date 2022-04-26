@@ -15,9 +15,9 @@
  * limitations under the License.
  */
 
-import * as Shift from 'shift-ast';
+const Shift = require('shift-ast');
 
-export default class LazyCloneReducer {
+module.exports = class LazyCloneReducer {
   reduceArrayAssignmentTarget(node, { elements, rest }) {
     if ((node.elements.length === elements.length && node.elements.every((v, i) => v === elements[i])) && node.rest === rest) {
       return node;
@@ -647,4 +647,4 @@ export default class LazyCloneReducer {
     }
     return new Shift.YieldGeneratorExpression({ expression });
   }
-}
+};

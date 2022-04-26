@@ -15,9 +15,9 @@
  * limitations under the License.
  */
 
-import * as Shift from 'shift-ast';
+const Shift = require('shift-ast');
 
-export default class CloneReducer {
+module.exports = class CloneReducer {
   reduceArrayAssignmentTarget(node, { elements, rest }) {
     return new Shift.ArrayAssignmentTarget({ elements, rest });
   }
@@ -413,4 +413,4 @@ export default class CloneReducer {
   reduceYieldGeneratorExpression(node, { expression }) {
     return new Shift.YieldGeneratorExpression({ expression });
   }
-}
+};

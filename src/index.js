@@ -14,14 +14,36 @@
  * limitations under the License.
  */
 
-export { reduce, reduce as default } from './director.js';
-export { thunkedReduce } from './thunked-director.js';
-export { default as thunkify } from './thunkify.js';
-export { default as thunkifyClass } from './thunkify-class.js';
-export { default as memoize } from './memoize.js';
-export { default as CloneReducer } from './clone-reducer.js';
-export { default as LazyCloneReducer } from './lazy-clone-reducer.js';
-export { default as MonoidalReducer } from './monoidal-reducer.js';
-export { default as ThunkedMonoidalReducer } from './thunked-monoidal-reducer.js';
-export { default as adapt } from './adapt.js';
-export { PlusReducer, ThunkedPlusReducer, ConcatReducer, ThunkedConcatReducer, AndReducer, ThunkedAndReducer, OrReducer, ThunkedOrReducer } from './reducers.js';
+const reduce = require('../gen/director.js');
+const thunkedReduce = require('../gen/thunked-director.js');
+const thunkify = require('../gen/thunkify.js');
+const thunkifyClass = require('../gen/thunkify-class.js');
+const memoize = require('../gen/memoize.js');
+const CloneReducer = require('../gen/clone-reducer.js');
+const LazyCloneReducer = require('../gen/lazy-clone-reducer.js');
+const MonoidalReducer = require('../gen/monoidal-reducer.js');
+const ThunkedMonoidalReducer = require('../gen/thunked-monoidal-reducer.js');
+const adapt = require('../gen/adapt.js');
+const { PlusReducer, ThunkedPlusReducer, ConcatReducer, ThunkedConcatReducer, AndReducer, ThunkedAndReducer, OrReducer, ThunkedOrReducer } = require('./reducers.js');
+
+module.exports = {
+  default: reduce,
+  reduce,
+  thunkedReduce,
+  thunkify,
+  thunkifyClass,
+  memoize,
+  CloneReducer,
+  LazyCloneReducer,
+  MonoidalReducer,
+  ThunkedMonoidalReducer,
+  adapt,
+  PlusReducer,
+  ThunkedPlusReducer,
+  ConcatReducer,
+  ThunkedConcatReducer,
+  AndReducer,
+  ThunkedAndReducer,
+  OrReducer,
+  ThunkedOrReducer,
+};

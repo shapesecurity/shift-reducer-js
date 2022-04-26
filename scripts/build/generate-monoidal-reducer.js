@@ -50,9 +50,9 @@ function toArg(isThunked, { name, type }) {
 
 
 const regularPrefix = `${makeHeader(__filename)}
-import Shift from 'shift-ast';
+const Shift = require('shift-ast');
 
-export default class MonoidalReducer {
+module.exports = class MonoidalReducer {
   constructor(monoid) {
     let identity = monoid.empty();
     this.identity = identity;
@@ -69,9 +69,9 @@ export default class MonoidalReducer {
 `;
 
 const thunkedPrefix = `${makeHeader(__filename)}
-import Shift from 'shift-ast';
+const Shift = require('shift-ast').default;
 
-export default class MonoidalReducer {
+module.exports = class MonoidalReducer {
   constructor(monoid) {
     let identity = monoid.empty();
     this.identity = identity;
@@ -129,7 +129,7 @@ function buildContent(isThunked) {
     }
   }
 
-  content += `}
+  content += `};
 `;
 
   return content;

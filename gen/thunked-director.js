@@ -413,6 +413,6 @@ const director = {
   },
 };
 
-export function thunkedReduce(reducer, node) {
+module.exports = function thunkedReduce(reducer, node) {
   return director[node.type](reducer, node);
-}
+};

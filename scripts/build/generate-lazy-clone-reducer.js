@@ -60,9 +60,9 @@ function generateEquals(type, a, b) {
 }
 
 let content = `${makeHeader(__filename)}
-import * as Shift from 'shift-ast';
+const Shift = require('shift-ast');
 
-export default class LazyCloneReducer {`;
+module.exports = class LazyCloneReducer {`;
 
 function cloneField(f) {
   if (!isStatefulType(f.type)) {
@@ -94,7 +94,7 @@ for (let typeName of Object.keys(spec)) {
   }
 }
 
-content += `}
+content += `};
 `;
 
 require('fs').writeFileSync('gen/lazy-clone-reducer.js', content, 'utf-8');
