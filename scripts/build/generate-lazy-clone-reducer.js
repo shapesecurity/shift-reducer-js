@@ -16,7 +16,7 @@
 
 'use strict';
 
-const spec = require('shift-spec').default;
+const spec = require('shift-spec');
 const { makeHeader, sanitize, parameterize, isStatefulType, isNodeOrUnionOfNodes } = require('../lib/utilities.js');
 
 function generateEquals(type, a, b) {

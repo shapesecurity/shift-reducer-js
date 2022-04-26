@@ -1,7 +1,7 @@
 'use strict';
 
 const path = require('path');
-const spec = require('shift-spec').default;
+const spec = require('shift-spec');
 const { isRestrictedWord, isReservedWordES6 } = require('esutils').keyword;
 
 function sanitize(fieldName) {

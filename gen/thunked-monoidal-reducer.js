@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-const Shift = require('shift-ast').default;
+const Shift = require('shift-ast');
 
 module.exports = class MonoidalReducer {
   constructor(monoid) {
@@ -123,7 +123,7 @@ module.exports = class MonoidalReducer {
   }
 
   reduceCatchClause(node, { binding, body }) {
-    return this.append(binding, body);
+    return this.append(binding == null ? () => this.identity : binding, body);
   }
 
   reduceClassDeclaration(node, { name, super: _super, elements }) {

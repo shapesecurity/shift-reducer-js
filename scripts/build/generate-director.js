@@ -16,7 +16,7 @@
 
 'use strict';
 
-const spec = require('shift-spec').default;
+const spec = require('shift-spec');
 const { makeHeader, isStatefulType } = require('../lib/utilities.js');
 
 function buildContent(isThunked) {
