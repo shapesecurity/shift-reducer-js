@@ -16,8 +16,8 @@
 
 'use strict';
 
-import MonoidalReducer from './monoidal-reducer.js';
-import ThunkedMonoidalReducer from './thunked-monoidal-reducer.js';
+const MonoidalReducer = require('../gen/monoidal-reducer.js');
+const ThunkedMonoidalReducer = require('../gen/thunked-monoidal-reducer.js');
 
 const PlusMonoid = {
   empty: () => 0,
@@ -42,50 +42,50 @@ const OrMonoid = {
 };
 
 
-export class PlusReducer extends MonoidalReducer {
+exports.PlusReducer = class PlusReducer extends MonoidalReducer {
   constructor() {
     super(PlusMonoid);
   }
-}
+};
 
-export class ThunkedPlusReducer extends ThunkedMonoidalReducer {
+exports.ThunkedPlusReducer = class ThunkedPlusReducer extends ThunkedMonoidalReducer {
   constructor() {
     super(PlusMonoid);
   }
-}
+};
 
-export class ConcatReducer extends MonoidalReducer {
+exports.ConcatReducer = class ConcatReducer extends MonoidalReducer {
   constructor() {
     super(ConcatMonoid);
   }
-}
+};
 
-export class ThunkedConcatReducer extends ThunkedMonoidalReducer {
+exports.ThunkedConcatReducer = class ThunkedConcatReducer extends ThunkedMonoidalReducer {
   constructor() {
     super(ConcatMonoid);
   }
-}
+};
 
-export class AndReducer extends MonoidalReducer {
+exports.AndReducer = class AndReducer extends MonoidalReducer {
   constructor() {
     super(AndMonoid);
   }
-}
+};
 
-export class ThunkedAndReducer extends ThunkedMonoidalReducer {
+exports.ThunkedAndReducer = class ThunkedAndReducer extends ThunkedMonoidalReducer {
   constructor() {
     super(AndMonoid);
   }
-}
+};
 
-export class OrReducer extends MonoidalReducer {
+exports.OrReducer = class OrReducer extends MonoidalReducer {
   constructor() {
     super(OrMonoid);
   }
-}
+};
 
-export class ThunkedOrReducer extends ThunkedMonoidalReducer {
+exports.ThunkedOrReducer = class ThunkedOrReducer extends ThunkedMonoidalReducer {
   constructor() {
     super(OrMonoid);
   }
-}
+};

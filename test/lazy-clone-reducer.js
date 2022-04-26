@@ -22,8 +22,8 @@ const { parseScript, parseModule } = require('shift-parser');
 const fs = require('fs');
 
 suite('lazy-clone', () => {
-  describe('everything.js', () => {
-    it('should clone to itself', () => {
+  test('everything.js should clone to itself', () => {
+    test('should clone to itself', () => {
       let tree, clonedTree;
 
       tree = parseModule(fs.readFileSync(require.resolve('everything.js/es2015-module'), 'utf8'));
@@ -36,7 +36,7 @@ suite('lazy-clone', () => {
     });
   });
 
-  describe('simple override', () => {
+  test('simple override', () => {
     let unchangedProgram = 'let a = "b"; null;';
     let changedProgram = 'let a = 0; null;';
 
@@ -46,13 +46,13 @@ suite('lazy-clone', () => {
       }
     }
 
-    it('should not mutate a program not containing an overridden type', () => {
+    test('should not mutate a program not containing an overridden type', () => {
       let tree = parseScript(unchangedProgram);
       let newTree = reduce(new IncrementReducer, tree);
       assert.strictEqual(tree, newTree);
     });
 
-    it('should mutate a program containing an overridden type', () => {
+    test('should mutate a program containing an overridden type', () => {
       let tree = parseScript(changedProgram);
       let newTree = reduce(new IncrementReducer, tree);
       assert.notEqual(tree, newTree);

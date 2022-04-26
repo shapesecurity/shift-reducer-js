@@ -20,9 +20,9 @@ const spec = require('shift-spec').default;
 const { makeHeader, parameterize, isStatefulType } = require('../lib/utilities.js');
 
 let content = `${makeHeader(__filename)}
-import * as Shift from 'shift-ast';
+const Shift = require('shift-ast');
 
-export default class CloneReducer {`;
+module.exports = class CloneReducer {`;
 
 function cloneField(f) {
   if (!isStatefulType(f.type)) {
@@ -51,7 +51,7 @@ for (let typeName of Object.keys(spec)) {
   }
 }
 
-content += `}
+content += `};
 `;
 
 require('fs').writeFileSync('gen/clone-reducer.js', content, 'utf-8');

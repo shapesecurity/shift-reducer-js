@@ -35,7 +35,7 @@ function force({ name, type }) {
 
 [true, false].forEach(isClass => {
   let content = `${makeHeader(__filename)}
-export default function thunkify${isClass ? 'Class' : ''}(reducer${isClass ? 'Class' : ''}) {
+module.exports = function thunkify${isClass ? 'Class' : ''}(reducer${isClass ? 'Class' : ''}) {
   return ${isClass ? 'class extends reducerClass ' : ''}{`;
 
   for (let typeName of Object.keys(spec)) {
@@ -59,7 +59,7 @@ export default function thunkify${isClass ? 'Class' : ''}(reducer${isClass ? 'Cl
   }
 
   content += `  };
-}
+};
 `;
 
   require('fs').writeFileSync(`gen/thunkify${isClass ? '-class' : ''}.js`, content, 'utf-8');

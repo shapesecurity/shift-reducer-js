@@ -413,6 +413,6 @@ const director = {
   },
 };
 
-export function reduce(reducer, node) {
+module.exports = function reduce(reducer, node) {
   return director[node.type](reducer, node);
-}
+};
